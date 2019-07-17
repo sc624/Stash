@@ -46,11 +46,6 @@ class ProfilePage extends StatelessWidget {
               subtitle: "Obscured password here",
               route: "Password Settings",
             ),
-            new ProfileButton(
-              label: "My Listings",
-              subtitle: "View your listings here or add a listing",
-              route: "My Listings Settings",
-            ),
           ],
         ),
     );

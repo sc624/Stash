@@ -117,6 +117,11 @@ class HomePageState extends State<MyHomePage> {
             ),
             new Divider(),
             new NavButton(
+               label: "My Listings",
+               route: "My Listings",
+            ),
+            new Divider(),
+            new NavButton(
               label: "Settings",
               route: "Settings",
             ),
