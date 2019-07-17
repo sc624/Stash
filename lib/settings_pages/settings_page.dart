@@ -22,7 +22,7 @@ class SettingsPage extends StatelessWidget {
                     leading: CircleAvatar(
                       backgroundColor: Theme
                         .of(context)
-                        .platform == TargetPlatform.iOS ? Colors.blue : Colors.white,
+                        .platform == TargetPlatform.iOS ? Colors.orange[300] : Colors.white,
                       child: new Text("JD"),
                     ),
                     title: new Text('My Profile'),
@@ -124,7 +124,7 @@ class MaxDistanceState extends State<MaxDistance> {
             min: minVal,
             max: maxVal,
             divisions: 100,
-            activeColor: Colors.blue,
+            activeColor: Colors.orange[300],
             inactiveColor: Colors.grey,
             onChanged: (newVal) {
               setState(() {
@@ -153,7 +153,7 @@ class PushNotificationState extends State<PushNotification> {
   Widget build(BuildContext context) {
     return SwitchListTile(
       title: const Text("Push Notifications"),
-      activeColor: Colors.blue,
+      activeColor: Colors.orange[300],
       value: onOff,
       onChanged: (bool value) { setState(() { onOff = value; });
       },
@@ -173,7 +173,7 @@ class EmailNotificationState extends State<EmailNotification> {
   Widget build(BuildContext context) {
     return SwitchListTile(
       title: const Text("Email Notifications"),
-      activeColor: Colors.blue,
+      activeColor: Colors.orange[300],
       value: onOff,
       onChanged: (bool value) { setState(() { onOff = value; });
       },

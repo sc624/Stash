@@ -17,7 +17,7 @@ class ProfilePage extends StatelessWidget {
                 radius: 36.0,
                 backgroundColor: Theme
                   .of(context)
-                  .platform == TargetPlatform.iOS ? Colors.blue : Colors.white,
+                  .platform == TargetPlatform.iOS ? Colors.orange[300] : Colors.white,
                 child: new Text("JD"),
               ),
             ),
@@ -45,6 +45,11 @@ class ProfilePage extends StatelessWidget {
               label: "Password",
               subtitle: "Obscured password here",
               route: "Password Settings",
+            ),
+            new ProfileButton(
+              label: "My Listings",
+              subtitle: "View your listings here or add a listing",
+              route: "My Listings Settings",
             ),
           ],
         ),
