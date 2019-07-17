@@ -13,14 +13,14 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 
-
 // Nested Settings Pages
 import 'package:stash/settings_pages/subpages/name_settings.dart';
 import 'package:stash/settings_pages/subpages/password_settings.dart';
 import 'package:stash/settings_pages/subpages/phone_settings.dart';
 import 'package:stash/settings_pages/subpages/email_settings.dart';
 import 'package:stash/settings_pages/subpages/location_settings.dart';
-import 'package:stash/settings_pages/subpages/my_listings_settings.dart';
+//import 'package:stash/settings_pages/subpages/my_listings_settings.dart';
+import 'package:stash/my_listings.dart';
 
 void main() => runApp(MyApp());
 
@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         "Phone Settings": (BuildContext context) => new PhoneSettingsPage(),
         "Email Settings": (BuildContext context) => new EmailSettingsPage(),
         "Location Settings": (BuildContext context) => new LocationSettingsPage("Location Settings"),
-        "My Listings Settings": (BuildContext context) => new MyListingsSettingsPage("My Listings"),
+        //"My Listings Settings": (BuildContext context) => new MyListingsSettingsPage("My Listings"),
         //"Contact Us": (BuildContext context) => new HelpSupportPage(),
         //"Privacy Policy": (BuildContext context) => new PrivacyPolicyPage(),
         //"Terms of Service": (BuildContext context) => new TermsOfServicePage(),
@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
 
         "About": (BuildContext context) => new AboutPage(),
         "All Listings": (BuildContext context) => new AllListingsPage("All Listings"),
-
+        "My Listings": (BuildContext context) => new MyListingsPage("My Listings"),
         "Login": (BuildContext context) => new LoginPage(),
       }
     );
