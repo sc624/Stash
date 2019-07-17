@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/rendering.dart';
 //import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 // Main Pages
-import 'package:stash/profile_page.dart';
+import 'package:stash/profile.dart';
 import 'package:stash/settings_pages/settings_page.dart';
 import 'package:stash/about_page.dart';
 import 'package:http/http.dart' as http;
@@ -138,6 +137,7 @@ class HomePageState extends State<MyHomePage> {
   }
 
   @override
+  // ignore: must_call_super
   void initState(){
     getData();
   }

@@ -32,4 +32,5 @@ class AboutPage extends StatelessWidget {
   }
 }
 
+// ignore: non_constant_identifier_names
 String mission_statement = """At Stash, our mission is to connect people with unused storage space to people seeking storage space. """;
