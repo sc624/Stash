@@ -2,11 +2,49 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 //import 'package:flutter_icons/flutter_icons.dart';
 import 'package:stash/add_listing.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:stash/edit_listing.dart';
+import 'package:stash/globals.dart' as globals;
 
-class MyListingsPage extends StatelessWidget {
-  final String title;
+class MyListingsPage extends StatefulWidget {
+   @override 
+   MyListingsPageState createState() => new MyListingsPageState();
+}
 
-  MyListingsPage(this.title);
+class MyListingsPageState extends State<MyListingsPage> {
+   //MyListingsPageState(this.title);
+
+  //final String title;
+
+  List data;
+
+  Future<String> getData() async {
+    var response = await http.get(
+      Uri.encodeFull("https://mysterymachine.web.illinois.edu/allListings.php"),
+      headers: {
+        "Accept": "application/json"
+      }
+    );
+    this.setState((){
+
+    data = json.decode(response.body);
+    //print(data.toString());
+
+    });
+
+    print(data[1]["ListingType"]);
+    
+    return "Success!";
+  }
+
+  @override
+  void initState(){
+    this.getData();
+  }
+
+  //int real_lID;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +53,28 @@ class MyListingsPage extends StatelessWidget {
         title: new Text("My Listings"),
         elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
       ),
-      body: new Container(),
+      body: new ListView.builder(
+        itemCount: data == null ? 0 : data.length,
+        itemBuilder: (BuildContext context, int index){
+          return new ListTile(
+            title: new Text(data[index]["ListingID"]),
+            onTap: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EditListingPage()),
+              );
+              print("Item at $index is ${data[index]["ListingID"]}");
+              globals.lID = data[index]["ListingID"];
+              // globals.real_lID = lID.parse('1');
+              // print(globals.real_lID);
+              print(globals.lID);
+            }
+          );
+        },
+      ),
+      
+
+
       floatingActionButton: Align(
         child: FloatingActionButton.extended(
           icon: Icon(Icons.add),
@@ -25,7 +84,7 @@ class MyListingsPage extends StatelessWidget {
           backgroundColor: Colors.orange,
           onPressed: (){
             Navigator.push(
-              context,
+              context, 
               MaterialPageRoute(builder: (context) => AddListingPage()),
             );
           },

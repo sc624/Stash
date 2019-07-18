@@ -11,8 +11,8 @@ import 'package:stash/all_listings.dart';
 import 'package:stash/login_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-
+import 'package:stash/edit_listing.dart';
+import 'package:stash/globals.dart';
 // Nested Settings Pages
 import 'package:stash/settings_pages/subpages/name_settings.dart';
 import 'package:stash/settings_pages/subpages/password_settings.dart';
@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
 
         "About": (BuildContext context) => new AboutPage(),
         "All Listings": (BuildContext context) => new AllListingsPage("All Listings"),
-        "My Listings": (BuildContext context) => new MyListingsPage("My Listings"),
+        "My Listings": (BuildContext context) => new MyListingsPage(),
         "Login": (BuildContext context) => new LoginPage(),
       }
     );
@@ -147,18 +147,18 @@ class HomePageState extends State<MyHomePage> {
     );
   }
 
-  Future getData() async{
-    var url = 'https://mysterymachine.web.illinois.edu/get.php';
-    http.Response response = await http.get(url);
-    var data = jsonDecode(response.body);
-    print(data.toString());
-  }
+  // Future getData() async{
+  //   var url = 'https://mysterymachine.web.illinois.edu/get.php';
+  //   http.Response response = await http.get(url);
+  //   var data = jsonDecode(response.body);
+  //   print(data.toString());
+  // }
 
 
-  @override
-  void initState(){
-    getData();
-  }
+  // @override
+  // void initState(){
+  //   getData();
+  // }
 }
 
 class NavButton extends StatelessWidget {
