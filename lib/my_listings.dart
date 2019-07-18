@@ -64,21 +64,21 @@ class MyListingsPageState extends State<MyListingsPage> {
         itemBuilder: (BuildContext context, int index){
             return new ListTile(
 
-            title: new Text(data[index]["ListingID"]),
+            title: new Text(data[index]["ListingType"]),
             onLongPress: () {
               setState(() {
-                globals.lID = data[index]["ListingID"];
+                globals.lID = data[index]["ListingType"];
                 print(globals.lID);
                 _deleteData();
               });
             },
-            onTap: (){
+            onTap: () {
               Navigator.push(
                context,
                MaterialPageRoute(builder: (context) => EditListingPage()),
               );
-              print("Item at $index is ${data[index]["ListingID"]}");
-             globals.lID = data[index]["ListingID"];
+              print("Item at $index is ${data[index]["ListingType"]}");
+             globals.lID = data[index]["ListingType"];
               print(globals.lID);
             }
             );
@@ -101,7 +101,7 @@ class MyListingsPageState extends State<MyListingsPage> {
             );
           },
         ),
-        alignment: Alignment(0.12,0.70)),
+        alignment: Alignment(0.12,0.35)),
     );
   }
 }

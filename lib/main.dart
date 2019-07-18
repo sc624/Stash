@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
         "Logout": (BuildContext context) => new LoginPage(),
 
         "About": (BuildContext context) => new AboutPage(),
-        "All Listings": (BuildContext context) => new AllListingsPage("All Listings"),
+        "All Listings": (BuildContext context) => new AllListingsPage(),
         "My Listings": (BuildContext context) => new MyListingsPage(),
         "Login": (BuildContext context) => new LoginPage(),
       }
