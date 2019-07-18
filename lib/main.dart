@@ -21,6 +21,7 @@ import 'package:stash/settings_pages/subpages/email_settings.dart';
 import 'package:stash/settings_pages/subpages/location_settings.dart';
 //import 'package:stash/settings_pages/subpages/my_listings_settings.dart';
 import 'package:stash/my_listings.dart';
+import 'package:stash/add_listing.dart';
 
 void main() => runApp(MyApp());
 
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       title: 'Stash',
       theme: ThemeData(
         // This is the theme of your application.
-        primarySwatch: Colors.orange,
+        primarySwatch: Colors.deepOrange,
         primaryColor: defaultTargetPlatform == TargetPlatform.iOS ? Colors.white : null
       ),
       home: MyHomePage(),
@@ -103,7 +104,7 @@ class HomePageState extends State<MyHomePage> {
               currentAccountPicture: new CircleAvatar(
                 backgroundColor: Theme
                   .of(context)
-                  .platform == TargetPlatform.iOS ? Colors.orange[300] : Colors.white,
+                  .platform == TargetPlatform.iOS ? Colors.orange : Colors.white,
                 child: new Text("JD"),
               ),
               onDetailsPressed: () {
@@ -153,9 +154,18 @@ class HomePageState extends State<MyHomePage> {
     print(data.toString());
   }
 
+
+  Future getListingsData() async{
+    var url = 'https://mysterymachine.web.illinois.edu/allListings.php';
+    http.Response response = await http.get(url);
+    var data = jsonDecode(response.body);
+    print(data.toString());
+  }
+
   @override
   void initState(){
     getData();
+    getListingsData();
   }
 }
 

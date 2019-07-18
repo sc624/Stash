@@ -17,7 +17,7 @@ class ProfilePage extends StatelessWidget {
                 radius: 36.0,
                 backgroundColor: Theme
                   .of(context)
-                  .platform == TargetPlatform.iOS ? Colors.orange[300] : Colors.white,
+                  .platform == TargetPlatform.iOS ? Colors.orange : Colors.white,
                 child: new Text("JD"),
               ),
             ),

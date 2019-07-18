@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 //import 'package:flutter_icons/flutter_icons.dart';
+import 'package:stash/add_listing.dart';
 
 class MyListingsPage extends StatelessWidget {
   final String title;
@@ -14,21 +15,22 @@ class MyListingsPage extends StatelessWidget {
         title: new Text("My Listings"),
         elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
       ),
-      body: new Center(
-        child: new FlatButton.icon(
-           color: Colors.orange,
-           icon: Icon(Icons.add,
-           color: Colors.white,
-           ),
-           label: Text('Add new listing',
-            style: new TextStyle(
-              //fontStyle: FontStyle.italic,
-              fontSize: 15.5,
-              color: Colors.white,
-            )),
-           onPressed: () {},
+      body: new Container(),
+      floatingActionButton: Align(
+        child: FloatingActionButton.extended(
+          icon: Icon(Icons.add),
+          label: Text("Add Listing",
+          style: TextStyle(fontSize: 14.5)),
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.orange,
+          onPressed: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddListingPage("List Your Space")),
+            );
+          },
         ),
-      )
+        alignment: Alignment(0.12,0.70)),
     );
   }
 }
