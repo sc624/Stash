@@ -155,17 +155,9 @@ class HomePageState extends State<MyHomePage> {
   }
 
 
-  Future getListingsData() async{
-    var url = 'https://mysterymachine.web.illinois.edu/allListings.php';
-    http.Response response = await http.get(url);
-    var data = jsonDecode(response.body);
-    print(data.toString());
-  }
-
   @override
   void initState(){
     getData();
-    getListingsData();
   }
 }
 

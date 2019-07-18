@@ -3,18 +3,42 @@ import 'package:flutter/foundation.dart';
 //import 'package:stash/my_listings.dart';
 import 'package:flutter/services.dart';
 import 'package:stash/all_listings.dart';
+//import 'dart:async';
+import 'package:http/http.dart' as http;
+//import 'dart:convert';
 
-class AddListingPage extends StatelessWidget {
-  final String title;
+class AddListingPage extends StatefulWidget {
+  @override
+  _AddListingPage createState() => _AddListingPage("Add Listing");
+}
+  
 
+class _AddListingPage extends State<AddListingPage> {
   TextEditingController priceController = TextEditingController();
-  TextEditingController titleController = TextEditingController();
+  TextEditingController typeController = TextEditingController();
   //check boxes for type? 
   //TextEditingController typeController = TextEditingController();
   TextEditingController dimController = TextEditingController();
-  TextEditingController locController = TextEditingController();
+  TextEditingController streetController = TextEditingController();
+  TextEditingController zipController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController stateController = TextEditingController();
+  _AddListingPage(this.title);
+  final String title;
 
-  AddListingPage(this.title);
+  void _addData() {
+
+    var url = "https://mysterymachine.web.illinois.edu/addListing.php";
+           
+    http.post(url, body: {
+      
+       "listingtype": typeController.text,
+       "dimensions": dimController.text,
+       "listingprice": priceController.text,
+       "addressID": streetController.text,
+    });      
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +51,14 @@ class AddListingPage extends StatelessWidget {
           child: FloatingActionButton.extended(
           icon: Icon(Icons.add),
           label: Text("Post Listing",
-          style: TextStyle(fontSize: 14.5)),
+          style: TextStyle(fontSize: 15.0)),
           foregroundColor: Colors.white,
           backgroundColor: Colors.orange,
           onPressed: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AllListingsPage("All Listings")),
-            );
+            _addData();
           },
         ),
-        alignment: Alignment(0.12,0.65)),
+        alignment: Alignment(0.12,0.94)),
         body: new ListView(
         children: <Widget> [
          Padding(
@@ -51,8 +72,8 @@ class AddListingPage extends StatelessWidget {
          Padding(
          padding: const EdgeInsets.all(15.0),
          child: TextField(
-           controller: titleController,
-           onChanged: (v) => titleController.text = v,
+           controller: typeController,
+           onChanged: (v) => typeController.text = v,
            decoration: InputDecoration(
              border: OutlineInputBorder(),
              fillColor: Colors.deepOrange,
@@ -79,10 +100,6 @@ class AddListingPage extends StatelessWidget {
              hasFloatingPlaceholder:true,
              hintText: "e.g. Price Per Month",
           ), 
-           inputFormatters: [
-           WhitelistingTextInputFormatter.digitsOnly,
-           ],
-           keyboardType: TextInputType.phone,
          ),
          ),
            Padding(
@@ -109,21 +126,64 @@ class AddListingPage extends StatelessWidget {
          Padding(
             padding: const EdgeInsets.only(left: 17.5, top: 15.0),
             child: const Text(
-              "Address/Location",
+              "Address",
               style: TextStyle(fontWeight: FontWeight.bold),
               textScaleFactor: 1.2,
             ),
          ),
          Padding(
-         padding: const EdgeInsets.all(15.0),
+         padding: const EdgeInsets.only(top: 6.0, left:15.0, right: 15.0, bottom: 3.0),
          child: TextField(
-           controller: locController,
-           onChanged: (v) => locController.text = v,
+           controller: streetController,
+           onChanged: (v) => streetController.text = v,
            decoration: InputDecoration(
              border: OutlineInputBorder(),
              fillColor: Colors.deepOrange,
              hasFloatingPlaceholder:true,
-             hintText: 'e.g. 606 E. Green St.',
+             hintText: 'Street Name',
+          ), 
+         ),
+         ),
+         Padding(
+         padding: const EdgeInsets.only(top: 3.0, left:15.0, right: 15.0, bottom: 3.0),
+         child: TextField(
+           controller: zipController,
+           onChanged: (v) => zipController.text = v,
+           decoration: InputDecoration(
+             border: OutlineInputBorder(),
+             fillColor: Colors.deepOrange,
+             hasFloatingPlaceholder:true,
+             hintText: 'Zip Code',
+          ), 
+          inputFormatters: [
+           WhitelistingTextInputFormatter.digitsOnly,
+           ],
+           keyboardType: TextInputType.phone,
+         ),
+         ),
+         Padding(
+         padding: const EdgeInsets.only(top: 3.0, left:15.0, right: 15.0, bottom: 3.0),
+         child: TextField(
+           controller: cityController,
+           onChanged: (v) => cityController.text = v,
+           decoration: InputDecoration(
+             border: OutlineInputBorder(),
+             fillColor: Colors.deepOrange,
+             hasFloatingPlaceholder:true,
+             hintText: 'City',
+          ), 
+         ),
+         ),
+         Padding(
+         padding: const EdgeInsets.only(top: 3.0, left:15.0, right: 15.0, bottom: 3.0),
+         child: TextField(
+           controller: stateController,
+           onChanged: (v) => stateController.text = v,
+           decoration: InputDecoration(
+             border: OutlineInputBorder(),
+             fillColor: Colors.deepOrange,
+             hasFloatingPlaceholder:true,
+             hintText: 'State',
           ), 
          ),
          ),
