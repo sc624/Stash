@@ -14,7 +14,7 @@ class MyListingsPage extends StatefulWidget {
 }
 
 class MyListingsPageState extends State<MyListingsPage> {
-   //MyListingsPageState(this.title);
+  //MyListingsPageState(this.title);
 
   //final String title;
 
@@ -44,7 +44,13 @@ class MyListingsPageState extends State<MyListingsPage> {
     this.getData();
   }
 
-  //int real_lID;
+  void _deleteData() {
+    var url = "https://mysterymachine.web.illinois.edu/deleteListing.php";
+
+    http.post(url, body: {
+       "listingid": globals.lID,
+    });
+}
 
   @override
   Widget build(BuildContext context) {
@@ -56,20 +62,26 @@ class MyListingsPageState extends State<MyListingsPage> {
       body: new ListView.builder(
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index){
-          return new ListTile(
+            return new ListTile(
+
             title: new Text(data[index]["ListingID"]),
+            onLongPress: () {
+              setState(() {
+                globals.lID = data[index]["ListingID"];
+                print(globals.lID);
+                _deleteData();
+              });
+            },
             onTap: (){
               Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => EditListingPage()),
+               context,
+               MaterialPageRoute(builder: (context) => EditListingPage()),
               );
               print("Item at $index is ${data[index]["ListingID"]}");
-              globals.lID = data[index]["ListingID"];
-              // globals.real_lID = lID.parse('1');
-              // print(globals.real_lID);
+             globals.lID = data[index]["ListingID"];
               print(globals.lID);
             }
-          );
+            );
         },
       ),
       

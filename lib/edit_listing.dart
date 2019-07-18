@@ -64,17 +64,9 @@ class _EditListingPage extends State<EditListingPage> {
             _updateData();
           },
         ),
-        alignment: Alignment(0.10,0.96)),
+        alignment: Alignment(0.10,0.925)),
         body: new ListView(
               children: <Widget> [
-         Padding(
-            padding: const EdgeInsets.only(left: 17.5, top: 15.0),
-            child: const Text(
-              "Listing ID = 1",
-              style: TextStyle(fontWeight: FontWeight.bold),
-              textScaleFactor: 1.2,
-            ),
-          ), 
          Padding(
             padding: const EdgeInsets.only(left: 17.5, top: 15.0),
             child: const Text(
@@ -146,7 +138,7 @@ class _EditListingPage extends State<EditListingPage> {
             ),
          ),
          Padding(
-         padding: const EdgeInsets.only(top: 6.0, left:15.0, right: 15.0, bottom: 3.0),
+         padding: const EdgeInsets.only(top: 10.0, left:15.0, right: 15.0, bottom: 3.0),
          child: TextField(
            controller: streetController,
            onChanged: (v) => streetController.text = v,
