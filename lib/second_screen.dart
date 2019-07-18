@@ -104,7 +104,7 @@ class SecondPage extends StatelessWidget {
                 minWidth: 170.0,
                 onPressed: () {
                   var route = new MaterialPageRoute(
-                    builder: (BuildContext context) => Profile(idUser: this.idUser),
+//                    builder: (BuildContext context) => Profile(idUser: this.idUser)
                   );
                   Navigator.of(context).push(route);
                 },

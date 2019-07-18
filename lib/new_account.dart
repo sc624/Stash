@@ -1,4 +1,4 @@
-import 'package:stash/colors.dart';
+//import 'package:stash/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -8,22 +8,19 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  final ThemeData _CeTheme = _buildTheme();
-  static ThemeData _buildTheme() {
-    final ThemeData base = ThemeData.light();
-    return base.copyWith(
-      accentColor: CeBrown900,
-      primaryColor: CePink100,
-      buttonColor: CePink100,
-      scaffoldBackgroundColor: CeBackgroundWhite,
-      cardColor: CeBackgroundWhite,
-      textSelectionColor: CePink100,
-      errorColor: CeErrorRed,
-      //TODO: Add the text themes (103)
-      //TODO: Add the icon themes (103)
-      //TODO: Decorate the inputs (103)
-    );
-  }
+//  final ThemeData _CeTheme = _buildTheme();
+//  static ThemeData _buildTheme() {
+//    final ThemeData base = ThemeData.light();
+//    return base.copyWith(
+//      accentColor: CeBrown900,
+//      primaryColor: CePink100,
+//      buttonColor: CePink100,
+//      scaffoldBackgroundColor: CeBackgroundWhite,
+//      cardColor: CeBackgroundWhite,
+//      textSelectionColor: CePink100,
+//      errorColor: CeErrorRed,
+//    );
+//  }
 
   void onCreatedAccount() {
     var alert = new AlertDialog(

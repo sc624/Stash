@@ -132,9 +132,11 @@ class HomePageState extends State<MyHomePage> {
   Future getData() async{
     var url = 'https://mysterymachine.web.illinois.edu/get.php';
     http.Response response = await http.get(url);
-    var data = jsonDecode(response.body);
-    print(data.toString());
+    var dat = jsonDecode(response.body);
+    print(dat.toString());
+//    var name = parsedJson[''];
   }
+
 
   @override
   // ignore: must_call_super
