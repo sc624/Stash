@@ -26,7 +26,7 @@ class MyListingsPage extends StatelessWidget {
           onPressed: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddListingPage("List Your Space")),
+              MaterialPageRoute(builder: (context) => AddListingPage()),
             );
           },
         ),
