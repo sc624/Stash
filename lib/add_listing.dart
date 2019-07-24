@@ -35,7 +35,11 @@ class _AddListingPage extends State<AddListingPage> {
        "listingtype": typeController.text,
        "dimensions": dimController.text,
        "listingprice": priceController.text,
-       "addressID": streetController.text,
+       "streetname": streetController.text,
+       "zipcode": zipController.text,
+       "city": cityController.text,
+       "state": stateController.text,
+
     });      
 
   }
