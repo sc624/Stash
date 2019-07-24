@@ -59,20 +59,20 @@ class _AllListingsPage extends State<AllListingsPage> {
         child: FloatingActionButton.extended(
           icon: Icon(Icons.search),
           label: Text("Search",
-          style: TextStyle(fontSize: 14.5)),
+          style: TextStyle(fontSize: 14.0)),
           foregroundColor: Colors.white,
           backgroundColor: Colors.orange,
           onPressed: (){
             _findData();
           },
         ),
-        alignment: Alignment(0.12,0.50)),
+        alignment: Alignment(0.12,0.45)),
       body: new ListView(
       children: <Widget> [
          Padding(
-            padding: const EdgeInsets.only(left: 17.5, top: 15.0),
+            padding: const EdgeInsets.only(left: 17.5, top: 180.0),
             child: const Text(
-              "Find listings with price less than: ",
+              "Find listings with prices less than: ",
               style: TextStyle(fontWeight: FontWeight.bold),
               textScaleFactor: 1.2,
             ),
