@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:stash/my_listings.dart';
 //import 'dart:async';
 import 'package:http/http.dart' as http;
-//import 'dart:convert';
+import 'dart:convert';
 import 'package:stash/globals.dart' as globals;
 
 class EditListingPage extends StatefulWidget {
@@ -13,6 +13,30 @@ class EditListingPage extends StatefulWidget {
 
 class _EditListingPage extends State<EditListingPage> {
 
+  List data;
+
+
+/*       Don't think we need this here...             */
+//  Future<String> getData() async {
+//    var response = await http.get(
+//        Uri.encodeFull("https://mysterymachine.web.illinois.edu/allListings.php"),
+//        headers: {
+//          "Accept": "application/json"
+//        }
+//    );
+//    this.setState((){
+//      data = json.decode(response.body);
+//    });
+//    return "Success!";
+//  }
+//
+//  @override
+//  void initState(){
+//    this.getData();
+//  }
+
+
+//all text edit fields
   TextEditingController priceController = TextEditingController();
   TextEditingController typeController = TextEditingController();
   TextEditingController dimController = TextEditingController();
@@ -20,20 +44,20 @@ class _EditListingPage extends State<EditListingPage> {
   TextEditingController zipController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController stateController = TextEditingController();
-  //TextEditingController listController = TextEditingController(); 
+  //TextEditingController listController = TextEditingController();
   _EditListingPage(this.title);
   final String title;
 
-  // listController 
+  // listController
 
 
-
+//backend update function
   void _updateData() {
     print(globals.lID);
     var url = "https://mysterymachine.web.illinois.edu/updateListing.php";
-           
+
     http.post(url, body: {
-      
+
        "listingtype": typeController.text,
        "dimensions": dimController.text,
        "listingprice": priceController.text,
@@ -42,7 +66,7 @@ class _EditListingPage extends State<EditListingPage> {
        "city": cityController.text,
        "state": stateController.text,
        "listingid": globals.lID,
-    });      
+    });
 
   }
 
@@ -62,6 +86,7 @@ class _EditListingPage extends State<EditListingPage> {
           backgroundColor: Colors.orange,
           onPressed: (){
             _updateData();
+            Navigator.of(context).pop();
           },
         ),
         alignment: Alignment(0.10,0.925)),
@@ -74,7 +99,7 @@ class _EditListingPage extends State<EditListingPage> {
               style: TextStyle(fontWeight: FontWeight.bold),
               textScaleFactor: 1.2,
             ),
-          ), 
+          ),
          Padding(
          padding: const EdgeInsets.all(15.0),
          child: TextField(
@@ -84,7 +109,7 @@ class _EditListingPage extends State<EditListingPage> {
              border: OutlineInputBorder(),
              fillColor: Colors.deepOrange,
              hintText: 'e.g. Garage Space',
-          ), 
+          ),
          ),
          ),
          Padding(
@@ -94,7 +119,7 @@ class _EditListingPage extends State<EditListingPage> {
               style: TextStyle(fontWeight: FontWeight.bold),
               textScaleFactor: 1.2,
             ),
-          ), 
+          ),
          Padding(
          padding: const EdgeInsets.all(15.0),
          child: TextField(
@@ -105,7 +130,7 @@ class _EditListingPage extends State<EditListingPage> {
              fillColor: Colors.deepOrange,
              hasFloatingPlaceholder:true,
              hintText: "e.g. Price Per Month",
-          ), 
+          ),
          ),
          ),
            Padding(
@@ -126,7 +151,7 @@ class _EditListingPage extends State<EditListingPage> {
              fillColor: Colors.deepOrange,
              hasFloatingPlaceholder:true,
              hintText: 'e.g. 5x5x5',
-          ), 
+          ),
          ),
          ),
          Padding(
@@ -147,7 +172,7 @@ class _EditListingPage extends State<EditListingPage> {
              fillColor: Colors.deepOrange,
              hasFloatingPlaceholder:true,
              hintText: 'Street Name',
-          ), 
+          ),
          ),
          ),
          Padding(
@@ -160,7 +185,7 @@ class _EditListingPage extends State<EditListingPage> {
              fillColor: Colors.deepOrange,
              hasFloatingPlaceholder:true,
              hintText: 'Zip Code',
-          ), 
+          ),
            keyboardType: TextInputType.phone,
          ),
          ),
@@ -174,7 +199,7 @@ class _EditListingPage extends State<EditListingPage> {
              fillColor: Colors.deepOrange,
              hasFloatingPlaceholder:true,
              hintText: 'City',
-          ), 
+          ),
          ),
          ),
          Padding(
@@ -187,9 +212,9 @@ class _EditListingPage extends State<EditListingPage> {
              fillColor: Colors.deepOrange,
              hasFloatingPlaceholder:true,
              hintText: 'State',
-          ), 
+          ),
          ),
-         ),            
+         ),
         ],
       ),
     );

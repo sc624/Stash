@@ -14,12 +14,9 @@ class MyListingsPage extends StatefulWidget {
 }
 
 class MyListingsPageState extends State<MyListingsPage> {
-  //MyListingsPageState(this.title);
 
-  //final String title;
-
+//back end call to get all listings
   List data;
-
   Future<String> getData() async {
     var response = await http.get(
       Uri.encodeFull("https://mysterymachine.web.illinois.edu/allListings.php"),
@@ -30,20 +27,15 @@ class MyListingsPageState extends State<MyListingsPage> {
     this.setState((){
 
     data = json.decode(response.body);
-    print(data.toString());
-
     });
-
-    print(data[1]["ListingType"]);
-    
     return "Success!";
   }
-
   @override
   void initState(){
     this.getData();
   }
 
+//backend call to delete listing
   void _deleteData() {
     var url = "https://mysterymachine.web.illinois.edu/deleteListing.php";
 
@@ -52,6 +44,8 @@ class MyListingsPageState extends State<MyListingsPage> {
     });
 }
 
+
+//body
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -65,18 +59,21 @@ class MyListingsPageState extends State<MyListingsPage> {
             return new ListTile(
             title: new Text(data[index]["ListingType"]),
             onLongPress: () {
-              setState(() {
-                globals.lID = data[index]["ListingID"];
-                print(globals.lID);
-                _deleteData();
-              });
+                setState(() {
+                  globals.lID = data[index]["ListingID"];
+                  print(globals.lID);
+                  _deleteData();
+                });
+                setState(() {
+                  data.removeAt(index);
+                });
             },
             onTap: () {
               Navigator.push(
                context,
                MaterialPageRoute(builder: (context) => EditListingPage()),
               );
-              print("Item at $index is ${data[index]["ListingID"]}");
+              print("Item at $index is ${data[index]["ListingType"]}");
               globals.lID = data[index]["ListingID"];
               print(globals.lID);
             }
