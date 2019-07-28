@@ -2,22 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:stash/my_listings.dart';
 import 'package:flutter/services.dart';
-import 'package:stash/all_listings.dart';
-//import 'dart:async';
 import 'package:http/http.dart' as http;
+//import 'dart:async';
 //import 'dart:convert';
 
 class AddListingPage extends StatefulWidget {
   @override
   _AddListingPage createState() => _AddListingPage("Add Listing");
 }
-  
+
 
 class _AddListingPage extends State<AddListingPage> {
   TextEditingController priceController = TextEditingController();
   TextEditingController typeController = TextEditingController();
   //check boxes for type? 
-  //TextEditingController typeController = TextEditingController();
   TextEditingController dimController = TextEditingController();
   TextEditingController streetController = TextEditingController();
   TextEditingController zipController = TextEditingController();
@@ -26,8 +24,9 @@ class _AddListingPage extends State<AddListingPage> {
   _AddListingPage(this.title);
   final String title;
 
-  void _addData() {
 
+  //add listing function
+  void _addData() {
     var url = "https://mysterymachine.web.illinois.edu/addListing.php";
            
     http.post(url, body: {
@@ -39,8 +38,7 @@ class _AddListingPage extends State<AddListingPage> {
        "zipcode": zipController.text,
        "city": cityController.text,
        "state": stateController.text,
-
-    });      
+    });
 
   }
 
@@ -64,7 +62,7 @@ class _AddListingPage extends State<AddListingPage> {
             Navigator.of(context).pop();
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyListingsPage())
+              MaterialPageRoute(builder: (context) => MyListingsPage()),
             );
           },
         ),

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.stash">
+    package="com.example.backend">
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -8,12 +8,8 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="stash"
+        android:label="backend"
         android:icon="@mipmap/ic_launcher">
-
-        <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyBDQvcPLln8Lr3yN-Kkd4cU0tpLOS22Q8w"/>
-
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

@@ -18,8 +18,8 @@ class MyListingsPageState extends State<MyListingsPage> {
 
   //final String title; 
 
+//back end call to get all listings
   List data;
-
   Future<String> getData() async {
     var response = await http.get(
       Uri.encodeFull("https://mysterymachine.web.illinois.edu/allListings.php"),
@@ -30,20 +30,15 @@ class MyListingsPageState extends State<MyListingsPage> {
     this.setState((){
 
     data = json.decode(response.body);
-    print(data.toString());
-
     });
-
-    print(data[1]["ListingType"]);
-    
     return "Success!";
   }
-
   @override
   void initState(){
     this.getData();
   }
 
+//backend call to delete listing
   void _deleteData() {
     var url = "https://mysterymachine.web.illinois.edu/deleteListing.php";
 
@@ -52,6 +47,8 @@ class MyListingsPageState extends State<MyListingsPage> {
     });
 }
 
+
+//body
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -79,7 +76,7 @@ class MyListingsPageState extends State<MyListingsPage> {
                context,
                MaterialPageRoute(builder: (context) => EditListingPage()),
               );
-              print("Item at $index is ${data[index]["ListingID"]}");
+              print("Item at $index is ${data[index]["ListingType"]}");
               globals.lID = data[index]["ListingID"];
               print(globals.lID);
             }

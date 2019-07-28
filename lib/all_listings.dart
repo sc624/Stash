@@ -19,6 +19,8 @@ class _AllListingsPage extends State<AllListingsPage> {
   TextEditingController searchController = TextEditingController();
 
   List data1;
+
+  //finds all listing prices less than given
   Future<String> _findData() async {
     var response = await http.post(
       Uri.encodeFull("https://mysterymachine.web.illinois.edu/priceFilter.php"),
@@ -30,14 +32,8 @@ class _AllListingsPage extends State<AllListingsPage> {
       }
     );
     this.setState((){
-
     data1 = json.decode(response.body);
-    print(data1.toString());
-
     });
-
-    // print(data[1]["ListingType"]);
-    
     return "Success!";
   }
 
