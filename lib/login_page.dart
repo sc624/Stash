@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatelessWidget {
   @override
@@ -25,6 +26,19 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin{
+
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController(); 
+
+  void _login(){
+    var url = "https://mysterymachine.web.illinois.edu/login.php";
+
+    http.post(url, body: {
+      "username" : usernameController.text,
+      "password" : passwordController.text,
+    });
+
+  }
 
   AnimationController iconAnimationController;
   Animation<double> iconAnimation;
@@ -76,15 +90,19 @@ class LoginScreenState extends State<LoginScreen> with SingleTickerProviderState
                       child: new Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          new TextFormField(
+                          new TextField(
+                            controller: usernameController,
+                            onChanged: (v) => usernameController.text,
                             decoration: new InputDecoration(
-                              hintText: "Enter Your Email",
+                              hintText: "Username",
                             ),
                             keyboardType: TextInputType.emailAddress,
                           ),
-                          new TextFormField(
+                          new TextField(
+                            controller: passwordController, 
+                            onChanged: (v) => passwordController.text = v,
                             decoration: new InputDecoration(
-                              hintText: "Enter Password",
+                              hintText: "Password",
                             ),
                             keyboardType: TextInputType.text,
                             obscureText: true,
@@ -98,12 +116,10 @@ class LoginScreenState extends State<LoginScreen> with SingleTickerProviderState
                               minWidth: 100.0,
                               color: Colors.white,
                               textColor: Colors.orange,
-                              child: new Text(
-                                "Login",
-                                 //style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              onPressed: ()=>{
-                                print('insert backend data here')
+                              child: new Text("Login"),
+                              onPressed: (){
+                                _login();
+                                //Navigator.of(context).pop();
                               },
                               splashColor: Colors.white,
                           ),
@@ -115,10 +131,7 @@ class LoginScreenState extends State<LoginScreen> with SingleTickerProviderState
                               minWidth: 100.0,
                               color: Colors.white,
                               textColor: Colors.orange,
-                              child: new Text(
-                              "Create an Account",
-                              //style: TextStyle(fontWeight: FontWeight.bold)
-                              ),
+                              child: new Text("Create an Account"),
                               onPressed: ()=>{
                                 print('insert backend data here')
                               },
