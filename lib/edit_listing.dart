@@ -62,6 +62,7 @@ class _EditListingPage extends State<EditListingPage> {
           backgroundColor: Colors.orange,
           onPressed: (){
             _updateData();
+            Navigator.of(context).pop();
           },
         ),
         alignment: Alignment(0.10,0.925)),

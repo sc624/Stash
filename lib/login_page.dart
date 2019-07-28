@@ -12,7 +12,7 @@ class LoginPage extends StatelessWidget {
     return new MaterialApp(
       home: new LoginScreen(),
       theme: new ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.orange,
         primaryColor: defaultTargetPlatform == TargetPlatform.iOS ? Colors.white : null
       )
     );
@@ -47,27 +47,23 @@ class LoginScreenState extends State<LoginScreen> with SingleTickerProviderState
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.orange,
       body: new Stack(
         fit: StackFit.expand,
         children: <Widget>[
-//          new Image(
-//              image: new AssetImage("assets/Vector Wave.jpg"),
-//              fit: BoxFit.cover,
-//              color: Colors.black54,
-//              colorBlendMode: BlendMode.darken,
-//          ),
           new Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new FlutterLogo(
-                size: iconAnimation.value * 100,
+              new Image(
+                image: new AssetImage("assets/login-logo-stash.png"),
+                width: 200.0,
+                height: 100.0,
               ),
               new Form(
                   child: new Theme(
                     data: new ThemeData(
                       brightness: Brightness.dark,
-                      primarySwatch: Colors.red,
+                      primarySwatch: Colors.orange,
                       inputDecorationTheme: new InputDecorationTheme(
                         labelStyle: new TextStyle(
                           color: Colors.white,
@@ -97,24 +93,36 @@ class LoginScreenState extends State<LoginScreen> with SingleTickerProviderState
                               padding: const EdgeInsets.only(top: 20.0),
                           ),
                           new MaterialButton(
+                              elevation: 15.0,
                               height: 40.0,
                               minWidth: 100.0,
                               color: Colors.white,
-                              textColor: Colors.red,
-                              child: new Text("Login"),
-                              onPressed: ()=>{},
-                              splashColor: Colors.red,
+                              textColor: Colors.orange,
+                              child: new Text(
+                                "Login",
+                                 //style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              onPressed: ()=>{
+                                print('insert backend data here')
+                              },
+                              splashColor: Colors.white,
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 20.0),
                             child: new MaterialButton(
+                              elevation: 15.0,
                               height: 40.0,
                               minWidth: 100.0,
                               color: Colors.white,
-                              textColor: Colors.red,
-                              child: new Text("Create an Account"),
-                              onPressed: ()=>{},
-                              splashColor: Colors.red,
+                              textColor: Colors.orange,
+                              child: new Text(
+                              "Create an Account",
+                              //style: TextStyle(fontWeight: FontWeight.bold)
+                              ),
+                              onPressed: ()=>{
+                                print('insert backend data here')
+                              },
+                              splashColor: Colors.white,
                             ),
                           ),
                         ],

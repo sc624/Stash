@@ -16,7 +16,7 @@ class MyListingsPage extends StatefulWidget {
 class MyListingsPageState extends State<MyListingsPage> {
   //MyListingsPageState(this.title);
 
-  //final String title;
+  //final String title; 
 
   List data;
 
@@ -69,6 +69,9 @@ class MyListingsPageState extends State<MyListingsPage> {
                 globals.lID = data[index]["ListingID"];
                 print(globals.lID);
                 _deleteData();
+              });
+              setState(() {
+                data.removeAt(index);
               });
             },
             onTap: () {

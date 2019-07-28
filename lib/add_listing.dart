@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-//import 'package:stash/my_listings.dart';
+import 'package:stash/my_listings.dart';
 import 'package:flutter/services.dart';
 import 'package:stash/all_listings.dart';
 //import 'dart:async';
@@ -60,6 +60,12 @@ class _AddListingPage extends State<AddListingPage> {
           backgroundColor: Colors.orange,
           onPressed: (){
             _addData();
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyListingsPage())
+            );
           },
         ),
         alignment: Alignment(0.12,0.94)),
