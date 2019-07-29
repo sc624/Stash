@@ -37,7 +37,6 @@ class LoginScreenState extends State<LoginScreen> with SingleTickerProviderState
       "username" : usernameController.text,
       "password" : passwordController.text,
     });
-
   }
 
   AnimationController iconAnimationController;
@@ -119,6 +118,7 @@ class LoginScreenState extends State<LoginScreen> with SingleTickerProviderState
                               child: new Text("Login"),
                               onPressed: (){
                                 _login();
+                                Navigator.of(context).pushNamed("Home Page");
                                 //Navigator.of(context).pop();
                               },
                               splashColor: Colors.white,

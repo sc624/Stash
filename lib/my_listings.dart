@@ -60,8 +60,8 @@ class MyListingsPageState extends State<MyListingsPage> {
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index){
             return new ListTile(
-            title: new Text(data[index]["ListingType"]),
-            onLongPress: () {
+              title: new Text(data[index]["ListingType"]),
+              onLongPress: () {
               setState(() {
                 globals.lID = data[index]["ListingID"];
                 print(globals.lID);

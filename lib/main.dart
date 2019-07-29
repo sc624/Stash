@@ -23,6 +23,10 @@ import 'package:stash/settings_pages/subpages/location_settings.dart';
 import 'package:stash/my_listings.dart';
 import 'package:stash/add_listing.dart';
 
+
+import 'dart:async';
+//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -33,7 +37,7 @@ class MyApp extends StatelessWidget {
       title: 'Stash',
       theme: ThemeData(
         // This is the theme of your application.
-        primarySwatch: Colors.deepOrange,
+        primarySwatch: Colors.orange,
         primaryColor: defaultTargetPlatform == TargetPlatform.iOS ? Colors.white : null
       ),
       home: MyHomePage(),
@@ -76,18 +80,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<MyHomePage> {
-  GoogleMapController mapController;
+  Completer<GoogleMapController> _controller = Completer();
 
-  //bool mapToggle = false; 
 
-  final LatLng _center = const LatLng(40.1020, -88.2272);
+  //   @override
+  // void initState() {
+  //   super.initState();
+  // }
 
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
+
+  double zoomVal= 7.0;
   
-  
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -104,7 +107,7 @@ class HomePageState extends State<MyHomePage> {
               currentAccountPicture: new CircleAvatar(
                 backgroundColor: Theme
                   .of(context)
-                  .platform == TargetPlatform.iOS ? Colors.orange : Colors.white,
+                  .platform == TargetPlatform.iOS ? Colors.orange[200] : Colors.white,
                 child: new Text("JD"),
               ),
               onDetailsPressed: () {
@@ -134,32 +137,276 @@ class HomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      body: GoogleMap(
-        onMapCreated: (controller) {
-          mapController = controller;
-        },
-        initialCameraPosition: CameraPosition(
-          target: _center,
-          zoom: 15.0,
+      body: Stack(
+        children: <Widget>[
+          _buildGoogleMap(context),
+          _buildContainer(),
+          _zoomminusfunction(),
+          _zoomplusfunction() 
+        ],
+      ),
+    ); //scaffold 
+  }
+
+
+   Widget _zoomminusfunction() {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: IconButton(
+            icon: Icon(Icons.zoom_out),
+            iconSize: 30.0,
+            color: Colors.orange,
+            onPressed: () {
+              zoomVal--;
+             _minus( zoomVal);
+            }),
+    );
+ }
+
+  Widget _zoomplusfunction() {
+   
+    return Align(
+      alignment: Alignment.topRight,
+      child: IconButton(
+            icon: Icon(Icons.zoom_in),
+            iconSize: 30.0,
+            color: Colors.orange,
+            onPressed: () {
+              zoomVal++;
+              _plus(zoomVal);
+            }),
+    );
+ }
+
+ Future<void> _minus(double zoomVal) async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(40.1020, -88.2272), zoom: zoomVal)));
+  }
+
+  Future<void> _plus(double zoomVal) async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(40.1020, -88.2272), zoom: zoomVal)));
+  }
+
+  Widget _buildContainer() {
+    return Align(
+      alignment: Alignment.bottomLeft,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 20.0),
+        height: 150.0,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: <Widget>[
+            SizedBox(width: 10.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _boxes(
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3noC_-jIN-n5aXi1aBk5p0gWACCDkqDWlvvTppUMdrjRcoZt0",
+                  40.112328, -88.235005,"Bicycle Storage Space"),
+            ),
+            SizedBox(width: 10.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _boxes(
+                  "https://www.xtraspace.co.za/sites/default/files/garage-living-space-empty-trend-makeover-home-xtraspace.jpg",
+                  40.107483, -88.218795,"Garage Storage Space"),
+            ),
+            SizedBox(width: 10.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _boxes(
+                  "https://s3.amazonaws.com/treehouse-content/uploads/photo_gallery/medium/206035-5bf2c661db83f_8e335c4d27e886346d5ae7993867825c.jpg?v=1542635929",
+                  40.105020, -88.234583,"Basement Storage Space"),
+            ),
+          ],
         ),
-       myLocationButtonEnabled: true,
       ),
     );
   }
 
-  // Future getData() async{
-  //   var url = 'https://mysterymachine.web.illinois.edu/get.php';
-  //   http.Response response = await http.get(url);
-  //   var data = jsonDecode(response.body);
-  //   print(data.toString());
-  // }
+  Widget _boxes(String _image, double lat,double long,String listingName) {
+    return  GestureDetector(
+        onTap: () {
+          _gotoLocation(lat,long);
+        },
+        child:Container(
+              child: new FittedBox(
+                child: Material(
+                    color: Colors.white,
+                    elevation: 14.0,
+                    borderRadius: BorderRadius.circular(24.0),
+                    shadowColor: Color(0x802196F3),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          width: 180,
+                          height: 200,
+                          child: ClipRRect(
+                            borderRadius: new BorderRadius.circular(24.0),
+                            child: Image(
+                              fit: BoxFit.fill,
+                              image: NetworkImage(_image),
+                            ),
+                          ),),
+                          Container(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: myDetailsContainer1(listingName),
+                          ),
+                        ),
 
+                      ],)
+                ),
+              ),
+            ),
+    );
+  }
 
-  // @override
-  // void initState(){
-  //   getData();
-  // }
-}
+  Widget myDetailsContainer1(String listingName) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
+          child: Container(
+              child: Text(listingName,
+            style: TextStyle(
+                color: Colors.orange,
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold),
+          )),
+        ),
+        SizedBox(height:5.0),
+        Container(
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Container(
+                  child: Text(
+                "4.6",
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 19.0,
+                ),
+              )),
+              Container(
+                child: Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                  size: 15.0,
+                ),
+              ),
+              Container(
+                child: Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                  size: 15.0,
+                ),
+              ),
+              Container(
+                child: Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                  size: 15.0,
+                ),
+              ),
+              Container(
+                child: Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                  size: 15.0,
+                ),
+              ),
+              Container(
+                child: Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                  size: 15.0,
+                ),
+              ),
+               Container(
+                  child: Text(
+                "(17)",
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 18.0,
+                ),
+              )),
+            ],
+          )),
+          SizedBox(height:5.0),
+        Container(
+                  child: Text(
+                "512 S. Third St.",
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 18.0,
+                ),
+              )),
+              SizedBox(height:5.0),
+        Container(
+            child: Text(
+          "\$39.99 per month",
+          style: TextStyle(
+              color: Colors.black54,
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold),
+        )),
+      ],
+    );
+  }
+
+  Widget _buildGoogleMap(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: GoogleMap(
+        mapType: MapType.normal,
+        initialCameraPosition:  CameraPosition(target: LatLng(40.1020, -88.2272), zoom: 13.0),
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+        markers: {
+          host1Marker,host2Marker,host3Marker,
+        },
+      ),
+    );
+  }
+
+  Future<void> _gotoLocation(double lat,double long) async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat, long), zoom: 17,tilt: 40.0,
+      bearing: 50.0,)));
+  }
+}//home class
+ 
+Marker host1Marker = Marker(
+  markerId: MarkerId('host1'),
+  position: LatLng(40.112328, -88.235005),
+  infoWindow: InfoWindow(title: 'Bicycle Storage Space'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueOrange,
+  ),
+);
+
+Marker host2Marker = Marker(
+  markerId: MarkerId('host2'),
+  position: LatLng(40.107483, -88.218795),
+  infoWindow: InfoWindow(title: 'Garage Storage Space'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueOrange,
+  ),
+);
+
+Marker host3Marker = Marker(
+  markerId: MarkerId('host3'),
+  position: LatLng(40.105020, -88.234583),
+  infoWindow: InfoWindow(title: 'Basement Storage Space'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueOrange,
+  ),
+);
 
 class NavButton extends StatelessWidget {
   final String label;
@@ -181,3 +428,6 @@ class NavButton extends StatelessWidget {
     );
   }
 }
+
+
+
