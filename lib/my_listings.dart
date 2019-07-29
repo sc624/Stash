@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:stash/edit_listing.dart';
 import 'package:stash/globals.dart' as globals;
 
+
+
 class MyListingsPage extends StatefulWidget {
    @override 
    MyListingsPageState createState() => new MyListingsPageState();
@@ -15,24 +17,30 @@ class MyListingsPage extends StatefulWidget {
 
 class MyListingsPageState extends State<MyListingsPage> {
   //MyListingsPageState(this.title);
-
-  //final String title; 
-
-//back end call to get all listings
+  //final String title;
   List data;
+
+  //back end call to get all listings
   Future<String> getData() async {
-    var response = await http.get(
-      Uri.encodeFull("https://mysterymachine.web.illinois.edu/allListings.php"),
+    print('${globals.userID}');
+    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/myListings.php");
+    var response = await http.post(url,
       headers: {
         "Accept": "application/json"
-      }
+      },
+      body: {
+        "userid": globals.userID,
+      },
     );
-    this.setState((){
 
-    data = json.decode(response.body);
+    this.setState((){
+      data = json.decode(response.body);
     });
+
     return "Success!";
   }
+
+
   @override
   void initState(){
     this.getData();

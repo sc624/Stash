@@ -16,26 +16,6 @@ class _EditListingPage extends State<EditListingPage> {
   List data;
 
 
-/*       Don't think we need this here...             */
-//  Future<String> getData() async {
-//    var response = await http.get(
-//        Uri.encodeFull("https://mysterymachine.web.illinois.edu/allListings.php"),
-//        headers: {
-//          "Accept": "application/json"
-//        }
-//    );
-//    this.setState((){
-//      data = json.decode(response.body);
-//    });
-//    return "Success!";
-//  }
-//
-//  @override
-//  void initState(){
-//    this.getData();
-//  }
-
-
 //all text edit fields
   TextEditingController priceController = TextEditingController();
   TextEditingController typeController = TextEditingController();
@@ -54,10 +34,9 @@ class _EditListingPage extends State<EditListingPage> {
 //backend update function
   void _updateData() {
     print(globals.lID);
-    var url = "https://mysterymachine.web.illinois.edu/updateListing.php";
+    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/updateListing.php");
 
     http.post(url, body: {
-
        "listingtype": typeController.text,
        "dimensions": dimController.text,
        "listingprice": priceController.text,

@@ -31,9 +31,11 @@ class _AllListingsPage extends State<AllListingsPage> {
         "listingprice": searchController.text,
       }
     );
+
     this.setState((){
-    data1 = json.decode(response.body);
+      data1 = json.decode(response.body);
     });
+
     return "Success!";
   }
 
