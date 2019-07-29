@@ -36,7 +36,6 @@ class LoginScreenState extends State<LoginScreen> with SingleTickerProviderState
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  int flag;
 
   //Login function
   Future<List> _login() async {
@@ -54,7 +53,6 @@ class LoginScreenState extends State<LoginScreen> with SingleTickerProviderState
       }
     );
     List data = json.decode(response.body);
-    flag = data.length;
     if(data.length==0){
       setState(() {
         String msg ="Login Fail";

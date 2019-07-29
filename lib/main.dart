@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/rendering.dart';
 //import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 // Main Pages
@@ -11,8 +10,8 @@ import 'package:stash/all_listings.dart';
 import 'package:stash/login_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:stash/edit_listing.dart';
 import 'package:stash/globals.dart' as globals;
+import 'package:geocoder/geocoder.dart';
 // Nested Settings Pages
 import 'package:stash/settings_pages/subpages/name_settings.dart';
 import 'package:stash/settings_pages/subpages/password_settings.dart';
@@ -21,8 +20,9 @@ import 'package:stash/settings_pages/subpages/email_settings.dart';
 import 'package:stash/settings_pages/subpages/location_settings.dart';
 //import 'package:stash/settings_pages/subpages/my_listings_settings.dart';
 import 'package:stash/my_listings.dart';
-import 'package:stash/add_listing.dart';
-import 'package:stash/register.dart';
+
+
+
 
 void main() => runApp(MyApp());
 
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.deepOrange,
             primaryColor: defaultTargetPlatform == TargetPlatform.iOS ? Colors.white : null
         ),
-        home: globals.page,
+        home: /*globals.page*/new MyHomePage(),
         routes: <String, WidgetBuilder>{
           "Profile": (BuildContext context) => new ProfilePage(),
           "First Name Settings": (BuildContext context) => new FirstNamePage(),
@@ -148,7 +148,7 @@ class HomePageState extends State<MyHomePage> {
           target: _center,
           zoom: 15.0,
         ),
-        myLocationButtonEnabled: true,
+//        myLocationButtonEnabled: true,
       ),
     );
   }

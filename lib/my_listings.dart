@@ -22,7 +22,7 @@ class MyListingsPageState extends State<MyListingsPage> {
 
   //back end call to get all listings
   Future<String> getData() async {
-    print('${globals.userID}');
+//    print('${globals.userID}');
     var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/myListings.php");
     var response = await http.post(url,
       headers: {
@@ -67,28 +67,30 @@ class MyListingsPageState extends State<MyListingsPage> {
       body: new ListView.builder(
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index){
-            return new ListTile(
-            title: new Text(data[index]["ListingType"]),
-            onLongPress: () {
-              setState(() {
-                globals.lID = data[index]["ListingID"];
-                print(globals.lID);
-                _deleteData();
-              });
-              setState(() {
-                data.removeAt(index);
-              });
-            },
-            onTap: () {
-              Navigator.push(
-               context,
-               MaterialPageRoute(builder: (context) => EditListingPage()),
-              );
-              print("Item at $index is ${data[index]["ListingType"]}");
-              globals.lID = data[index]["ListingID"];
-              print(globals.lID);
-            }
-            );
+          return new Card(
+            child:ListTile(
+                title: new Text(data[index]["ListingType"]),
+
+                onLongPress: () {
+                  setState(() {
+                    globals.lID = data[index]["ListingID"];
+                    _deleteData();
+//                print(globals.lID);
+                  });
+                  setState(() {
+                    data.removeAt(index);
+                  });
+                },
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => EditListingPage()),
+                  );
+                  globals.lID = data[index]["ListingID"];
+//              print("Item at $index is ${data[index]["ListingType"]}");
+//              print(globals.lID);
+                }            ),
+          );
         },
       ),
       
