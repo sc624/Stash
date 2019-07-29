@@ -28,9 +28,6 @@ class _EditListingPage extends State<EditListingPage> {
   _EditListingPage(this.title);
   final String title;
 
-  // listController
-
-
 //backend update function
   void _updateData() {
     print(globals.lID);

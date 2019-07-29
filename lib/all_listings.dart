@@ -175,27 +175,34 @@ class _AllListingsPage extends State<AllListingsPage> {
 
   List data1;
 
-  //finds all listing prices less than given
-  Future<String> _findData() async {
+  //finds all listing prices
+  Future<String> _fetchAll() async {
     var response = await http.post(
       Uri.encodeFull("https://mysterymachine.web.illinois.edu/allListings.php"),
-      headers: {
-        "Accept": "application/json"
-      },
-//      body: {
-//        "listingprice": searchController.text,
-//      }
+      headers: {"Accept": "application/json"},
     );
-
     this.setState((){
       data1 = json.decode(response.body);
     });
+    return "Success!";
+  }
 
+  //find all listings lower than price
+  Future<String> _findData() async {
+    var response = await http.post(
+      Uri.encodeFull("https://mysterymachine.web.illinois.edu/priceFilter.php"),
+      headers: {"Accept": "application/json"},
+      body: {"listingprice": searchController.text,}
+    );
+    this.setState((){
+      data1 = json.decode(response.body);
+    });
     return "Success!";
   }
 
   @override
   void initState(){
+    this._fetchAll();
     this._findData();
   }
 
@@ -207,6 +214,7 @@ class _AllListingsPage extends State<AllListingsPage> {
         title: new Text("All Listings"),
         elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Align(
         child: FloatingActionButton.extended(
           icon: Icon(Icons.search),
