@@ -19,6 +19,8 @@ import 'package:stash/settings_pages/subpages/location_settings.dart';
 //import 'package:stash/settings_pages/subpages/my_listings_settings.dart';
 import 'package:stash/my_listings.dart';
 import 'package:stash/reserved.dart';
+import 'package:stash/advanced_query.dart';
+
 
 import 'dart:async';
 
@@ -37,43 +39,44 @@ class MyApp extends StatelessWidget {
       globals.page = new MyHomePage();
     }
     return MaterialApp(
-        title: 'Stash',
-        theme: ThemeData(
-          // This is the theme of your application.
-            primarySwatch: Colors.orange,
-            primaryColor: defaultTargetPlatform == TargetPlatform.iOS ? Colors.white : null
-        ),
-        // home: globals.page,
-        home: globals.page,
-        routes: <String, WidgetBuilder>{
-          "Profile": (BuildContext context) => new ProfilePage(),
-          "First Name Settings": (BuildContext context) => new FirstNamePage(),
-          "Last Name Settings": (BuildContext context) => new LastNamePage(),
-          "Password Settings": (BuildContext context) => new PasswordSettingsPage(),
+      title: 'Stash',
+      theme: ThemeData(
+        // This is the theme of your application.
+          primarySwatch: Colors.orange,
+          primaryColor: defaultTargetPlatform == TargetPlatform.iOS ? Colors.white : null
+      ),
+      // home: globals.page,
+      home: globals.page,
+      routes: <String, WidgetBuilder>{
+        "Profile": (BuildContext context) => new ProfilePage(),
+        "First Name Settings": (BuildContext context) => new FirstNamePage(),
+        "Last Name Settings": (BuildContext context) => new LastNamePage(),
+        "Password Settings": (BuildContext context) => new PasswordSettingsPage(),
 
-          //"Messages": (BuildContext context) => new MessagesPage("Messages"),
-          // "History": (BuildContext context) => new HistoryPage("History"),
+        //"Messages": (BuildContext context) => new MessagesPage("Messages"),
+        // "History": (BuildContext context) => new HistoryPage("History"),
 
-          //"Payment": (BuildContext context) => new PaymentPage(),
-          //"Add Card": (BuildContext context) => new AddCardPage(),
+        //"Payment": (BuildContext context) => new PaymentPage(),
+        //"Add Card": (BuildContext context) => new AddCardPage(),
 
-          "Settings": (BuildContext context) => new SettingsPage(),
-          "Phone Settings": (BuildContext context) => new PhoneSettingsPage(),
-          "Email Settings": (BuildContext context) => new EmailSettingsPage(),
-          "Location Settings": (BuildContext context) => new LocationSettingsPage("Location Settings"),
-          //"My Listings Settings": (BuildContext context) => new MyListingsSettingsPage("My Listings"),
-          //"Contact Us": (BuildContext context) => new HelpSupportPage(),
-          //"Privacy Policy": (BuildContext context) => new PrivacyPolicyPage(),
-          //"Terms of Service": (BuildContext context) => new TermsOfServicePage(),
-          //"Licenses": (BuildContext context) => new LicensesPage("Licenses"),
-          "Logout": (BuildContext context) => new LoginPage(),
-          "Main" : (BuildContext context) => new MyHomePage(),
-          "About": (BuildContext context) => new AboutPage(),
-          "All Listings": (BuildContext context) => new AllListingsPage(),
-          "My Listings": (BuildContext context) => new MyListingsPage(),
-          "My Bookings": (BuildContext context) => new BookingPage(),
-          "Login": (BuildContext context) => new LoginPage(),
-        },
+        "Settings": (BuildContext context) => new SettingsPage(),
+        "Phone Settings": (BuildContext context) => new PhoneSettingsPage(),
+        "Email Settings": (BuildContext context) => new EmailSettingsPage(),
+        "Location Settings": (BuildContext context) => new LocationSettingsPage("Location Settings"),
+        //"My Listings Settings": (BuildContext context) => new MyListingsSettingsPage("My Listings"),
+        //"Contact Us": (BuildContext context) => new HelpSupportPage(),
+        //"Privacy Policy": (BuildContext context) => new PrivacyPolicyPage(),
+        //"Terms of Service": (BuildContext context) => new TermsOfServicePage(),
+        //"Licenses": (BuildContext context) => new LicensesPage("Licenses"),
+        "Logout": (BuildContext context) => new LoginPage(),
+        "Main" : (BuildContext context) => new MyHomePage(),
+        "About": (BuildContext context) => new AboutPage(),
+        "All Listings": (BuildContext context) => new AllListingsPage(),
+        "My Listings": (BuildContext context) => new MyListingsPage(),
+        "My Bookings": (BuildContext context) => new BookingPage(),
+        "Useful Info": (BuildContext context) => new Advanced(),
+        "Login": (BuildContext context) => new LoginPage(),
+      },
     );
 
   }
@@ -88,16 +91,15 @@ class MyHomePage extends StatefulWidget {
 class HomePageState extends State<MyHomePage> {
   Completer<GoogleMapController> _controller = Completer();
 
-  List data1; 
+  List data1;
 
-    @override
+  @override
   void initState() {
     //super.initState();
     this._fetchAll();
   }
 
   double zoomVal = 8.0;
-  
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -113,8 +115,8 @@ class HomePageState extends State<MyHomePage> {
               accountEmail: new Text("${globals.useremail}"),
               currentAccountPicture: new CircleAvatar(
                 backgroundColor: Theme
-                  .of(context)
-                  .platform == TargetPlatform.iOS ? Colors.orange[100] : Colors.white,
+                    .of(context)
+                    .platform == TargetPlatform.iOS ? Colors.orange[100] : Colors.white,
                 child: new Text("JD"),
               ),
               onDetailsPressed: () {
@@ -138,6 +140,11 @@ class HomePageState extends State<MyHomePage> {
             ),
             new Divider(),
             new NavButton(
+              label: "Useful Information",
+              route: "Useful Info",
+            ),
+            new Divider(),
+            new NavButton(
               label: "Settings",
               route: "Settings",
             ),
@@ -154,14 +161,14 @@ class HomePageState extends State<MyHomePage> {
           _buildGoogleMap(context),
           _buildContainer(),
           _zoomminusfunction(),
-          _zoomplusfunction() 
+          _zoomplusfunction()
         ],
       ),
-    ); //scaffold 
+    ); //scaffold
   }
 
 
-   Widget _zoomminusfunction() {
+  Widget _zoomminusfunction() {
     return Align(
       alignment: Alignment.topLeft,
       child: IconButton(
@@ -173,25 +180,25 @@ class HomePageState extends State<MyHomePage> {
              _minus(zoomVal);
             }),
     );
- }
+  }
 
   Widget _zoomplusfunction() {
-   
+
     return Align(
       alignment: Alignment.topRight,
       child: IconButton(
-            icon: Icon(Icons.zoom_in),
-            iconSize: 30.0,
-            color: Colors.orange,
-            onPressed: () {
-              zoomVal++;
-              _plus(zoomVal);
-            }),
+          icon: Icon(Icons.zoom_in),
+          iconSize: 30.0,
+          color: Colors.orange,
+          onPressed: () {
+            zoomVal++;
+            _plus(zoomVal);
+          }),
     );
- }
+  }
 
 
-Future<String> _fetchAll() async {
+  Future<String> _fetchAll() async {
     var response = await http.post(
       Uri.encodeFull("https://mysterymachine.web.illinois.edu/allListings.php"),
       headers: {"Accept": "application/json"},
@@ -201,6 +208,7 @@ Future<String> _fetchAll() async {
     });
     return "Success!";
   }
+
 
  Future<void> _minus(double zoomVal) async {
     final GoogleMapController controller = await _controller.future;
@@ -228,7 +236,7 @@ Future<String> _fetchAll() async {
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3noC_-jIN-n5aXi1aBk5p0gWACCDkqDWlvvTppUMdrjRcoZt0",
-                  40.112328, -88.235005,data1[index]["ListingType"], data1[index]["StreetName"],data1[index]["Username"], data1[index]["ListingPrice"]),
+                  40.112328, -88.235005,data1[index]["ListingType"], data1[index]["City"], data1[index]["State"],data1[index]["Username"], data1[index]["ListingPrice"]),
             ),
           ); 
           },
@@ -237,7 +245,7 @@ Future<String> _fetchAll() async {
     );
   }
 
-  Widget _boxes(String _image, double lat,double long,String listingName, String streetname, String username, String listingprice ) {
+  Widget _boxes(String _image, double lat,double long,String listingName, String city, String state,String username, String listingprice ) {
     return  GestureDetector(
         onTap: () {
           _gotoLocation(lat,long);
@@ -264,7 +272,7 @@ Future<String> _fetchAll() async {
                           Container(
                           child: Padding(
                             padding: const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0, bottom: 30.0),
-                            child: myDetailsContainer1(listingName, streetname, username, listingprice),
+                            child: myDetailsContainer1(listingName, city, state, username, listingprice),
                           ),
                         ),
 
@@ -275,7 +283,7 @@ Future<String> _fetchAll() async {
     );
   }
 
-  Widget myDetailsContainer1(String listingName, String streetname, String username, String listingprice ) {
+  Widget myDetailsContainer1(String listingName, String city, String state, String username, String listingprice ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
@@ -292,7 +300,7 @@ Future<String> _fetchAll() async {
         SizedBox(height:5.0),
         Container(
                 child: Text(
-                streetname,
+                city + "\," + state,
                 style: TextStyle(
                   color: Colors.black54,
                   fontSize: 20.0,
@@ -341,7 +349,7 @@ Future<String> _fetchAll() async {
           _controller.complete(controller);
         },
         markers: {
-          host1Marker,host2Marker,host3Marker,
+          host1Marker,host2Marker,host3Marker,host4Marker, host5Marker, host6Marker, host7Marker, host8Marker, host9Marker, host10Marker,
         },
       ),
     );
@@ -353,11 +361,11 @@ Future<String> _fetchAll() async {
       bearing: 50.0,)));
   }
 }//home class
- 
+
 Marker host1Marker = Marker(
   markerId: MarkerId('host1'),
   position: LatLng(40.112328, -88.235005),
-  infoWindow: InfoWindow(title: 'Bicycle Storage Space'),
+  infoWindow: InfoWindow(title: 'Bedroom: \$64 per month'),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueOrange,
   ),
@@ -381,6 +389,70 @@ Marker host3Marker = Marker(
   ),
 );
 
+Marker host4Marker = Marker(
+  markerId: MarkerId('host4'),
+  position: LatLng(40.103707, -88.218300),
+  infoWindow: InfoWindow(title: 'Closet Storage Space'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueOrange,
+  ),
+);
+
+Marker host5Marker = Marker(
+  markerId: MarkerId('host5'),
+  position: LatLng(40.113129, -88.230696),
+  infoWindow: InfoWindow(title: 'Extra Storage Space'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueOrange,
+  ),
+);
+
+Marker host6Marker = Marker(
+  markerId: MarkerId('host6'),
+  position: LatLng(40.105544, -88.237661),
+  infoWindow: InfoWindow(title: 'Closet Space'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueOrange,
+  ),
+);
+
+Marker host7Marker = Marker(
+  markerId: MarkerId('host7'),
+  position: LatLng(40.114483, -88.229634),
+  infoWindow: InfoWindow(title: 'Spacious Balcony'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueOrange,
+  ),
+);
+
+Marker host8Marker = Marker(
+  markerId: MarkerId('host8'),
+  position: LatLng(40.110601, -88.229122),
+  infoWindow: InfoWindow(title: 'Big Garage Space'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueOrange,
+  ),
+);
+
+Marker host9Marker = Marker(
+  markerId: MarkerId('host9'),
+  position: LatLng(40.115447, -88.219046),
+  infoWindow: InfoWindow(title: 'Empty Attic'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueOrange,
+  ),
+);
+
+Marker host10Marker = Marker(
+  markerId: MarkerId('host10'),
+  position: LatLng(40.109207, -88.234980),
+  infoWindow: InfoWindow(title: 'Shed Storage'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueOrange,
+  ),
+);
+
+
 class NavButton extends StatelessWidget {
   final String label;
   final String route;
@@ -401,6 +473,3 @@ class NavButton extends StatelessWidget {
     );
   }
 }
-
-
-

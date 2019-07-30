@@ -104,6 +104,7 @@ class BookingPageState extends State<BookingPage>{
               return InkWell(
                 onDoubleTap:(){
                   globals.lID = data[index]["ListingID"];
+//                  pls = index;
                   _cancel();
                   pls = index;
                 },

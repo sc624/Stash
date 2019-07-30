@@ -97,7 +97,8 @@ class _EditListingPage extends State<EditListingPage> {
               context,
               new MaterialPageRoute (
                   builder: (BuildContext context) => new MyListingsPage()),
-            );          },
+            );
+          },
         ),
         alignment: Alignment(0.10,0.925)),
         body: new ListView(
