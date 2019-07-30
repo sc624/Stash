@@ -92,7 +92,12 @@ class _EditListingPage extends State<EditListingPage> {
           onPressed: (){
             _updateData();
             Navigator.of(context).pop();
-          },
+            Navigator.of(context).pop();
+            Navigator.push(
+              context,
+              new MaterialPageRoute (
+                  builder: (BuildContext context) => new MyListingsPage()),
+            );          },
         ),
         alignment: Alignment(0.10,0.925)),
         body: new ListView(
