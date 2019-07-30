@@ -56,7 +56,7 @@ class AdvancedState extends State<Advanced>{
               onTap:(){
                 Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Average()));
+                    MaterialPageRoute(builder: (context) => Cheapest()));
               }
             ),
           ),
@@ -120,9 +120,11 @@ class AverageState extends State<Average>{
       body: new ListView.builder(
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index){
-          return new ListTile(
+          return new Card(
+          child: ListTile(
             title: new Text("User: "+ data[index]["Username"]),
             subtitle: new Text("Average listing price: \$" + data[index]["PersonAVGPrice"] + " per month"),
+          ),
           );
         },
       ),
@@ -167,11 +169,16 @@ class CheapestState extends State<Cheapest>{
       body: new ListView.builder(
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index){
-          return new ListTile(
-            title: new Text("User: "+ data[index]["Username"]),
-            subtitle: new Text("Average listing price: \$" + data[index]["PersonAVGPrice"] + " per month"),
+          return new Card(
+          child:ListTile(
+            title: new Text("Host Contact: " + data[index]["Email"]),
+            subtitle: new Text(
+              "Cheapest listing in " + data[index]["City"] + " is \$" + data[index]["ListingPrice"]
+              ),
+          ),
           );
         },
+          
       ),
     );
   }

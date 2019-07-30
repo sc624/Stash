@@ -98,7 +98,7 @@ class _AddListingPage extends State<AddListingPage> {
           onPressed: (){
             _addData();
             Navigator.of(context).pop();
-            // Navigator.of(context).pop();
+            Navigator.of(context).pop();
             Navigator.push(
               context,
               new MaterialPageRoute (
