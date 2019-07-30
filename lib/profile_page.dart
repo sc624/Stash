@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:stash/globals.dart' as globals;
+
 
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('${globals.firstname}');
     return new Scaffold(
         appBar: new AppBar(
           title: new Text("Profile"),
@@ -22,23 +25,23 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             new ProfileButton(
+              label: "Username",
+              subtitle: globals.username,
+              route: "Phone Settings",
+            ),
+            new ProfileButton(
               label: "First Name",
-              subtitle: "John",
+              subtitle: globals.firstname,
               route: "First Name Settings",
             ),
             new ProfileButton(
               label: "Last Name",
-              subtitle: "Doe",
+              subtitle: globals.lastname,
               route: "Last Name Settings",
             ),
             new ProfileButton(
-              label: "Phone Number",
-              subtitle: "(000) 000-0000",
-              route: "Phone Settings",
-            ),
-            new ProfileButton(
               label: "Email",
-              subtitle: "example@email.com",
+              subtitle: globals.useremail,
               route: "Email Settings",
             ),
             new ProfileButton(

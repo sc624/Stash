@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:stash/my_listings.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:stash/globals.dart' as globals;
+
 //import 'dart:async';
 //import 'dart:convert';
 
@@ -27,17 +29,17 @@ class _AddListingPage extends State<AddListingPage> {
 
   //add listing function
   void _addData() {
-    var url = "https://mysterymachine.web.illinois.edu/addListing.php";
+    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/addListing.php");
            
     http.post(url, body: {
-      
-       "listingtype": typeController.text,
-       "dimensions": dimController.text,
-       "listingprice": priceController.text,
-       "streetname": streetController.text,
-       "zipcode": zipController.text,
-       "city": cityController.text,
-       "state": stateController.text,
+      "userid" : globals.userID,
+      "listingtype": typeController.text,
+      "dimensions": dimController.text,
+      "listingprice": priceController.text,
+      "streetname": streetController.text,
+      "zipcode": zipController.text,
+      "city": cityController.text,
+      "state": stateController.text,
     });
 
   }
@@ -62,7 +64,7 @@ class _AddListingPage extends State<AddListingPage> {
             Navigator.of(context).pop();
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyListingsPage()),
+              new MaterialPageRoute(builder: (context) => new MyListingsPage()),
             );
           },
         ),

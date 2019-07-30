@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:stash/edit_listing.dart';
 import 'package:stash/globals.dart' as globals;
 
+
+
 class MyListingsPage extends StatefulWidget {
    @override 
    MyListingsPageState createState() => new MyListingsPageState();
@@ -15,24 +17,30 @@ class MyListingsPage extends StatefulWidget {
 
 class MyListingsPageState extends State<MyListingsPage> {
   //MyListingsPageState(this.title);
-
-  //final String title; 
-
-//back end call to get all listings
+  //final String title;
   List data;
+
+  //back end call to get all listings
   Future<String> getData() async {
-    var response = await http.get(
-      Uri.encodeFull("https://mysterymachine.web.illinois.edu/allListings.php"),
+//    print('${globals.userID}');
+    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/myListings.php");
+    var response = await http.post(url,
       headers: {
         "Accept": "application/json"
-      }
+      },
+      body: {
+        "userid": globals.userID,
+      },
     );
-    this.setState((){
 
-    data = json.decode(response.body);
+    this.setState((){
+      data = json.decode(response.body);
     });
+
     return "Success!";
   }
+
+
   @override
   void initState(){
     this.getData();
@@ -59,28 +67,30 @@ class MyListingsPageState extends State<MyListingsPage> {
       body: new ListView.builder(
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index){
-            return new ListTile(
-              title: new Text(data[index]["ListingType"]),
-              onLongPress: () {
-              setState(() {
-                globals.lID = data[index]["ListingID"];
-                print(globals.lID);
-                _deleteData();
-              });
-              setState(() {
-                data.removeAt(index);
-              });
-            },
-            onTap: () {
-              Navigator.push(
-               context,
-               MaterialPageRoute(builder: (context) => EditListingPage()),
-              );
-              print("Item at $index is ${data[index]["ListingType"]}");
-              globals.lID = data[index]["ListingID"];
-              print(globals.lID);
-            }
-            );
+          return new Card(
+            child:ListTile(
+                title: new Text(data[index]["ListingType"]),
+
+                onLongPress: () {
+                  setState(() {
+                    globals.lID = data[index]["ListingID"];
+                    _deleteData();
+//                print(globals.lID);
+                  });
+                  setState(() {
+                    data.removeAt(index);
+                  });
+                },
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => EditListingPage()),
+                  );
+                  globals.lID = data[index]["ListingID"];
+//              print("Item at $index is ${data[index]["ListingType"]}");
+//              print(globals.lID);
+                }            ),
+          );
         },
       ),
       

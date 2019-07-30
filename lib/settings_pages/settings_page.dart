@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:stash/login_page.dart';
+import 'package:stash/globals.dart' as globals;
 
-class SettingsPage extends StatelessWidget {
+
+class SettingsPage extends StatefulWidget{
+  SettingsScreen createState()=> SettingsScreen();
+}
+
+class SettingsScreen extends State<SettingsPage> {
     @override
     Widget build(BuildContext context) {
       return new Scaffold(
@@ -89,7 +96,18 @@ class SettingsPage extends StatelessWidget {
                 textScaleFactor: 1.2,
               ),
               onTap: () {
-                Navigator.of(context).pushNamed("Logout");
+                setState(() {
+                  globals.userID = null;
+                  globals.firstname = null;
+                  globals.lastname = null;
+                  globals.useremail = null;
+                  globals.username = null;
+                  Navigator.of(context).pop();
+                  Navigator.pushReplacement(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) => new LoginPage()));
+                });
               },
             ),
           ],
