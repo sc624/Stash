@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.orange,
             primaryColor: defaultTargetPlatform == TargetPlatform.iOS ? Colors.white : null
         ),
+        // home: globals.page,
         home: globals.page,
         routes: <String, WidgetBuilder>{
           "Profile": (BuildContext context) => new ProfilePage(),
@@ -87,14 +88,15 @@ class MyHomePage extends StatefulWidget {
 class HomePageState extends State<MyHomePage> {
   Completer<GoogleMapController> _controller = Completer();
 
+  List data1; 
 
     @override
   void initState() {
-    super.initState();
+    //super.initState();
+    this._fetchAll();
   }
 
-
-  double zoomVal= 10.0;
+  double zoomVal = 8.0;
   
   @override
   Widget build(BuildContext context) {
@@ -163,7 +165,7 @@ class HomePageState extends State<MyHomePage> {
             color: Colors.orange,
             onPressed: () {
               zoomVal--;
-             _minus( zoomVal);
+             _minus(zoomVal);
             }),
     );
  }
@@ -183,6 +185,18 @@ class HomePageState extends State<MyHomePage> {
     );
  }
 
+
+Future<String> _fetchAll() async {
+    var response = await http.post(
+      Uri.encodeFull("https://mysterymachine.web.illinois.edu/allListings.php"),
+      headers: {"Accept": "application/json"},
+    );
+    this.setState((){
+      data1 = json.decode(response.body);
+    });
+    return "Success!";
+  }
+
  Future<void> _minus(double zoomVal) async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(40.1020, -88.2272), zoom: zoomVal)));
@@ -199,37 +213,26 @@ class HomePageState extends State<MyHomePage> {
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 20.0),
         height: 150.0,
-        child: ListView(
+        child: new ListView.builder(
           scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            SizedBox(width: 10.0),
-            Padding(
+          itemCount: data1 == null ? 0 : data1.length,
+          itemBuilder: (BuildContext context, int index){
+          return new Container(
+            //SizedBox(width: 10.0),
+            child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3noC_-jIN-n5aXi1aBk5p0gWACCDkqDWlvvTppUMdrjRcoZt0",
-                  40.112328, -88.235005,"Bicycle Storage Space"),
+                  40.112328, -88.235005,data1[index]["ListingType"], data1[index]["StreetName"],data1[index]["Username"], data1[index]["ListingPrice"]),
             ),
-            SizedBox(width: 10.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _boxes(
-                  "https://www.xtraspace.co.za/sites/default/files/garage-living-space-empty-trend-makeover-home-xtraspace.jpg",
-                  40.107483, -88.218795,"Garage Storage Space"),
-            ),
-            SizedBox(width: 10.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _boxes(
-                  "https://s3.amazonaws.com/treehouse-content/uploads/photo_gallery/medium/206035-5bf2c661db83f_8e335c4d27e886346d5ae7993867825c.jpg?v=1542635929",
-                  40.105020, -88.234583,"Basement Storage Space"),
-            ),
-          ],
+          ); 
+          },
         ),
       ),
     );
   }
 
-  Widget _boxes(String _image, double lat,double long,String listingName) {
+  Widget _boxes(String _image, double lat,double long,String listingName, String streetname, String username, String listingprice ) {
     return  GestureDetector(
         onTap: () {
           _gotoLocation(lat,long);
@@ -238,14 +241,13 @@ class HomePageState extends State<MyHomePage> {
               child: new FittedBox(
                 child: Material(
                     color: Colors.white,
-                    elevation: 14.0,
+                    elevation: 3.0,
                     borderRadius: BorderRadius.circular(24.0),
-                    shadowColor: Color(0x802196F3),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Container(
-                          width: 180,
+                          width: 160,
                           height: 200,
                           child: ClipRRect(
                             borderRadius: new BorderRadius.circular(24.0),
@@ -256,8 +258,8 @@ class HomePageState extends State<MyHomePage> {
                           ),),
                           Container(
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: myDetailsContainer1(listingName),
+                            padding: const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0, bottom: 30.0),
+                            child: myDetailsContainer1(listingName, streetname, username, listingprice),
                           ),
                         ),
 
@@ -268,15 +270,15 @@ class HomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget myDetailsContainer1(String listingName) {
+  Widget myDetailsContainer1(String listingName, String streetname, String username, String listingprice ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
+          padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
           child: Container(
               child: Text(listingName,
-            style: TextStyle(
+              style: TextStyle(
                 color: Colors.orange,
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold),
@@ -284,80 +286,41 @@ class HomePageState extends State<MyHomePage> {
         ),
         SizedBox(height:5.0),
         Container(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Container(
-                  child: Text(
-                "4.6",
+                child: Text(
+                streetname,
                 style: TextStyle(
                   color: Colors.black54,
-                  fontSize: 19.0,
+                  fontSize: 20.0,
                 ),
               )),
-              Container(
-                child: Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
-              ),
-              Container(
-                child: Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
-              ),
-              Container(
-                child: Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
-              ),
-              Container(
-                child: Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
-              ),
-              Container(
-                child: Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
-              ),
-               Container(
-                  child: Text(
-                "(17)",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18.0,
-                ),
-              )),
-            ],
-          )),
-          SizedBox(height:5.0),
+        SizedBox(height:5.0),
         Container(
-                  child: Text(
-                "512 S. Third St.",
-                style: TextStyle(
+          child: Padding(
+          padding: const EdgeInsets.all(1.0),
+              child: Text(
+              "Host: " + username ,
+              style: TextStyle(
                   color: Colors.black54,
-                  fontSize: 18.0,
+                  fontSize: 20.0,
+                  //fontWeight: FontWeight.bold
                 ),
-              )),
-              SizedBox(height:5.0),
+              ),
+        ),
+        ),
+        SizedBox(height:5.0),
         Container(
-            child: Text(
-          "\$39.99 per month",
-          style: TextStyle(
-              color: Colors.black54,
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold),
-        )),
+          child: Padding(
+          padding: const EdgeInsets.all(1.0),
+              child: Text(
+              "\$" + listingprice + " per month",
+              style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+        ),
+        ),
       ],
     );
   }

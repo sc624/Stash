@@ -19,6 +19,48 @@ class MyListingsPageState extends State<MyListingsPage> {
   //MyListingsPageState(this.title);
   //final String title;
   List data;
+  bool flag;
+  int pls;
+
+//alert dialog
+bool _cancel() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Confirm Deletion"),
+          content: new Text("Are you sure you want to delete your listing?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Yes"),
+              onPressed: () {
+                _deleteData();
+                print('${globals.lID}');
+                setState(() {
+                  data.removeAt(pls);
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("No"),
+              onPressed: () {
+                setState(() {
+                  flag = false;
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+    return flag;
+  }
+
+
 
   //back end call to get all listings
   Future<String> getData() async {
@@ -70,26 +112,22 @@ class MyListingsPageState extends State<MyListingsPage> {
           return new Card(
             child:ListTile(
                 title: new Text(data[index]["ListingType"]),
-
-                onLongPress: () {
-                  setState(() {
+                trailing: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
                     globals.lID = data[index]["ListingID"];
-                    _deleteData();
-//                print(globals.lID);
-                  });
-                  setState(() {
-                    data.removeAt(index);
-                  });
-                },
+                    pls = index;
+                    _cancel();
+                  },
+                ),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => EditListingPage()),
                   );
                   globals.lID = data[index]["ListingID"];
-//              print("Item at $index is ${data[index]["ListingType"]}");
-//              print(globals.lID);
-                }            ),
+                }            
+                ),
           );
         },
       ),
@@ -110,7 +148,7 @@ class MyListingsPageState extends State<MyListingsPage> {
             );
           },
         ),
-        alignment: Alignment(0.12,0.45)),
+        alignment: Alignment(0.12,0.70)),
     );
   }
 }

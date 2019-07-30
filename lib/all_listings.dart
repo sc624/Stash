@@ -97,6 +97,7 @@ class _ArticleDescription extends StatelessWidget {
                   color: Colors.black54,
                 ),
               ),
+
             ],
           ),
         ),
@@ -108,6 +109,7 @@ class _ArticleDescription extends StatelessWidget {
 class CustomListItemTwo extends StatelessWidget {
   CustomListItemTwo({
     Key key,
+    this.trailing,
     this.thumbnail,
     this.title,
     this.subtitle,
@@ -118,6 +120,7 @@ class CustomListItemTwo extends StatelessWidget {
     this.readDuration,
   }) : super(key: key);
 
+  final Widget trailing;
   final Widget thumbnail;
   final String title;
   final String subtitle;
@@ -214,20 +217,10 @@ class _AllListingsPage extends State<AllListingsPage> {
         title: new Text("All Listings"),
         elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Align(
-        child: FloatingActionButton.extended(
-          icon: Icon(Icons.search),
-          label: Text("Search",
-          style: TextStyle(fontSize: 14.0)),
-          foregroundColor: Colors.white,
-          backgroundColor: Colors.orange,
-          onPressed: (){
-            _findData();
-          },
-        ),
-        alignment: Alignment(0.12,0.45)),
       body: new ListView(
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        physics: ClampingScrollPhysics(),
       children: <Widget> [
          Padding(
             padding: const EdgeInsets.only(left: 17.5, top: 10.0),
@@ -243,8 +236,14 @@ class _AllListingsPage extends State<AllListingsPage> {
            controller: searchController,
            onChanged: (v) => searchController.text = v,
            decoration: InputDecoration(
+             suffixIcon: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  _findData();
+                },
+             ),
              border: OutlineInputBorder(),
-             fillColor: Colors.deepOrange,
+             fillColor: Colors.orange,
              hintText: 'e.g. 20',
           ), 
          ),
@@ -252,6 +251,7 @@ class _AllListingsPage extends State<AllListingsPage> {
          new ListView.builder(
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
+          physics: ClampingScrollPhysics(),
           itemCount: data1 == null ? 0 : data1.length,
           itemBuilder: (BuildContext context, int index){
             return new GestureDetector(
@@ -261,12 +261,18 @@ class _AllListingsPage extends State<AllListingsPage> {
               child: new Card(
                 //custom list tile
                 child:CustomListItemTwo(
+                  trailing: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    print('please');
+                    },
+                  ),
                   thumbnail: Container(
-                    decoration: const BoxDecoration(color: Colors.pink),
+                    decoration: const BoxDecoration(color: Colors.orange),
                   ),
                   title: data1[index]["ListingType"],
                   subtitle: data1[index]["StreetName"],
-                  subtitle2: data1[index]["City"],
+                  subtitle2: data1[index]["City"] + "\,",
                   subtitle3: data1[index]["State"],
                   author: data1[index]["Username"],
                   publishDate: data1[index]["Email"],
