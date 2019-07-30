@@ -26,7 +26,7 @@ class _EditListingPage extends State<EditListingPage> {
   _EditListingPage(this.title);
   final String title;
 
-  
+
   //back end call to get current listing
   Future<Null> getData() async {
     var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/getListingInfo.php");
