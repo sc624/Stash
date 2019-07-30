@@ -19,6 +19,8 @@ import 'package:stash/settings_pages/subpages/location_settings.dart';
 //import 'package:stash/settings_pages/subpages/my_listings_settings.dart';
 import 'package:stash/my_listings.dart';
 import 'package:stash/reserved.dart';
+import 'package:stash/advanced_query.dart';
+
 
 
 import 'dart:async';
@@ -73,6 +75,7 @@ class MyApp extends StatelessWidget {
         "All Listings": (BuildContext context) => new AllListingsPage(),
         "My Listings": (BuildContext context) => new MyListingsPage(),
         "My Bookings": (BuildContext context) => new BookingPage(),
+        "Useful Info": (BuildContext context) => new Advanced(),
         "Login": (BuildContext context) => new LoginPage(),
       },
     );
@@ -136,6 +139,11 @@ class HomePageState extends State<MyHomePage> {
             new NavButton(
               label: "My Bookings",
               route: "My Bookings",
+            ),
+            new Divider(),
+            new NavButton(
+              label: "Useful Information",
+              route: "Useful Info",
             ),
             new Divider(),
             new NavButton(

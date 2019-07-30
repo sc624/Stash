@@ -33,7 +33,6 @@ class BookingPageState extends State<BookingPage>{
               child: new Text("Accept"),
               onPressed: () {
                 _remove();
-//                data.removeAt(pls);
                 Navigator.of(context).pop();
               },
             ),
@@ -98,6 +97,7 @@ class BookingPageState extends State<BookingPage>{
               return InkWell(
                 onTap:(){
                   globals.lID = data[index]["ListingID"];
+//                  pls = index;
                   _cancel();
                   data.removeAt(index);
                 },

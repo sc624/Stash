@@ -136,10 +136,10 @@ class MyListingsPageState extends State<MyListingsPage> {
 //                trailing: IconButton(
 //                  icon: Icon(Icons.delete),
 //                  onPressed: () {
-//                    globals.lID = data[index]["ListingID"];
-//                    pls = index;
-//                    _cancel();
-//                  },
+//                  globals.lID = data[index]["ListingID"];
+//                  pls = index;
+//                  _cancel();
+//                },
 //                ),
             ),
           );
