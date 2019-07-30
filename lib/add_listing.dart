@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:stash/globals.dart' as globals;
 
+
 //import 'dart:async';
 //import 'dart:convert';
 
@@ -15,6 +16,8 @@ class AddListingPage extends StatefulWidget {
 
 
 class _AddListingPage extends State<AddListingPage> {
+
+  /*------------------------all controllers---------------------*/
   TextEditingController priceController = TextEditingController();
   TextEditingController typeController = TextEditingController();
   //check boxes for type? 
@@ -27,8 +30,42 @@ class _AddListingPage extends State<AddListingPage> {
   final String title;
 
 
-  //add listing function
+  /*-------------date time pick------------*/
+
+//  Future<Null> _startDate(BuildContext context) async {
+//    final DateTime picked = await showDatePicker(
+//        context: context,
+//        initialDate: globals.startDate,
+//        firstDate: DateTime(2000, 1),
+//        lastDate: DateTime(2100, 12));
+//    if (picked != null && picked != globals.startDate)
+//      setState(() {
+//        globals.startDate = picked;
+//      });
+//
+//  }
+//
+//  Future<Null> _endDate(BuildContext context) async {
+//    final DateTime picked = await showDatePicker(
+//        context: context,
+//        initialDate: globals.endDate,
+//        firstDate: DateTime(2000, 1),
+//        lastDate: DateTime(2100, 12));
+//    if (picked != null && picked != globals.endDate)
+//      setState(() {
+//        globals.endDate = picked;
+//      });
+//  }
+
+  /*-------------add listing backend function------------*/
   void _addData() {
+
+//    var date_end = DateTime.parse(globals.endDate.toString());
+//    var date_start = DateTime.parse(globals.startDate.toString());
+//
+//    var endFormat = "${date_end.year}-${date_end.month}-${date_end.day}";
+//    var startFormat = "${date_start.year}-${date_start.month}-${date_start.day}";
+
     var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/addListing.php");
            
     http.post(url, body: {
@@ -64,22 +101,23 @@ class _AddListingPage extends State<AddListingPage> {
             Navigator.of(context).pop();
             Navigator.push(
               context,
-              new MaterialPageRoute(builder: (context) => new MyListingsPage()),
+              new MaterialPageRoute (
+                  builder: (BuildContext context) => new MyListingsPage()),
             );
           },
         ),
         alignment: Alignment(0.12,0.94)),
         body: new ListView(
         children: <Widget> [
-         Padding(
+          Padding(
             padding: const EdgeInsets.only(left: 17.5, top: 15.0),
             child: const Text(
               "Listing Type",
               style: TextStyle(fontWeight: FontWeight.bold),
               textScaleFactor: 1.2,
             ),
-          ), 
-         Padding(
+          ),
+          Padding(
          padding: const EdgeInsets.all(15.0),
          child: TextField(
            controller: typeController,
@@ -91,15 +129,15 @@ class _AddListingPage extends State<AddListingPage> {
           ), 
          ),
          ),
-         Padding(
+          Padding(
             padding: const EdgeInsets.only(left: 17.5, top: 15.0),
             child: const Text(
               "Listing Price",
               style: TextStyle(fontWeight: FontWeight.bold),
               textScaleFactor: 1.2,
             ),
-          ), 
-         Padding(
+          ),
+          Padding(
          padding: const EdgeInsets.all(15.0),
          child: TextField(
            controller: priceController,
@@ -112,7 +150,7 @@ class _AddListingPage extends State<AddListingPage> {
           ), 
          ),
          ),
-           Padding(
+          Padding(
             padding: const EdgeInsets.only(left: 17.5, top: 15.0),
             child: const Text(
               "Dimensions",
@@ -120,7 +158,7 @@ class _AddListingPage extends State<AddListingPage> {
               textScaleFactor: 1.2,
             ),
           ),
-         Padding(
+          Padding(
          padding: const EdgeInsets.all(15.0),
          child: TextField(
            controller: dimController,
@@ -133,7 +171,7 @@ class _AddListingPage extends State<AddListingPage> {
           ), 
          ),
          ),
-         Padding(
+          Padding(
             padding: const EdgeInsets.only(left: 17.5, top: 15.0),
             child: const Text(
               "Address",
@@ -141,7 +179,7 @@ class _AddListingPage extends State<AddListingPage> {
               textScaleFactor: 1.2,
             ),
          ),
-         Padding(
+          Padding(
          padding: const EdgeInsets.only(top: 6.0, left:15.0, right: 15.0, bottom: 3.0),
          child: TextField(
            controller: streetController,
@@ -154,7 +192,7 @@ class _AddListingPage extends State<AddListingPage> {
           ), 
          ),
          ),
-         Padding(
+          Padding(
          padding: const EdgeInsets.only(top: 3.0, left:15.0, right: 15.0, bottom: 3.0),
          child: TextField(
            controller: zipController,
@@ -171,7 +209,7 @@ class _AddListingPage extends State<AddListingPage> {
            keyboardType: TextInputType.phone,
          ),
          ),
-         Padding(
+          Padding(
          padding: const EdgeInsets.only(top: 3.0, left:15.0, right: 15.0, bottom: 3.0),
          child: TextField(
            controller: cityController,
@@ -184,7 +222,7 @@ class _AddListingPage extends State<AddListingPage> {
           ), 
          ),
          ),
-         Padding(
+          Padding(
          padding: const EdgeInsets.only(top: 3.0, left:15.0, right: 15.0, bottom: 3.0),
          child: TextField(
            controller: stateController,
@@ -197,7 +235,25 @@ class _AddListingPage extends State<AddListingPage> {
           ), 
          ),
          ),
-        ],        
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+          ),
+//          Text("Start date: ${globals.startDate.toLocal()}"),
+//          SizedBox(height: 20.0,),
+//          RaisedButton(
+//            onPressed: () => _startDate(context),
+//            child: Text('Select date'),
+//          ),
+//          Text("End date: ${globals.endDate.toLocal()}"),
+//          SizedBox(height: 20.0,),
+//          RaisedButton(
+//            onPressed: () => _endDate(context),
+//            child: Text('Select date'),
+//          ),
+//          Padding(
+//            padding: const EdgeInsets.all(150.0),
+//          ),
+        ],
       )
       
     );

@@ -10,3 +10,5 @@ var lastname;
 var useremail;
 int lol = 1;
 var page;
+DateTime startDate = DateTime.now();
+DateTime endDate = DateTime.now();

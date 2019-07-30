@@ -24,7 +24,7 @@ class RegisterScreenState extends State<RegisterScreen> {
 
   //backend call to make new user -------- password not going through IDK WHY
   void _register(){
-    print('${passwordController.text}');
+//    print('${passwordController.text}');
     var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/userRegister.php");
     http.post(url,
       body: {

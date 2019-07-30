@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 //import 'package:stash/my_listings.dart';
 import 'package:flutter/services.dart';
-import 'package:stash/all_listings.dart';
+import 'package:stash/reserved.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:stash/globals.dart' as globals;
+
 
 //custom card
 class _ArticleDescription extends StatelessWidget {
@@ -104,7 +106,6 @@ class _ArticleDescription extends StatelessWidget {
     );
   }
 }
-
 class CustomListItemTwo extends StatelessWidget {
   CustomListItemTwo({
     Key key,
@@ -172,8 +173,48 @@ class _AllListingsPage extends State<AllListingsPage> {
   _AllListingsPage(this.title);
   final String title;
   TextEditingController searchController = TextEditingController();
-
   List data1;
+
+  //confirmation dialog
+  void _confirm() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Confirm"),
+          content: new Text("Are you sure you want to reserve this listing?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Accept"),
+              onPressed: () {
+                _book();
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  //get listing availability
+  void _book(){
+    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/bookListing.php");
+
+    http.post(url, body: {
+      "listingid": globals.lID,
+      "userid": globals.userID,
+    });
+}
 
   //finds all listing prices
   Future<String> _fetchAll() async {
@@ -250,16 +291,18 @@ class _AllListingsPage extends State<AllListingsPage> {
          ),
          ),
          new ListView.builder(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemCount: data1 == null ? 0 : data1.length,
-          itemBuilder: (BuildContext context, int index){
-            return new GestureDetector(
-//              onTap:(
-//
-//              ),
-              child: new Card(
-                //custom list tile
+           scrollDirection: Axis.vertical,
+           physics: ClampingScrollPhysics(),
+           shrinkWrap: true,
+           itemCount: data1 == null ? 0 : data1.length,
+           itemBuilder: (BuildContext context, int index){
+             return InkWell(
+               onTap:(){
+                 globals.lID = data1[index]["ListingID"];
+                 _confirm();
+               },
+             child:new Card(
+               //custom list tile
                 child:CustomListItemTwo(
                   thumbnail: Container(
                     decoration: const BoxDecoration(color: Colors.pink),
@@ -272,9 +315,9 @@ class _AllListingsPage extends State<AllListingsPage> {
                   publishDate: data1[index]["Email"],
                   readDuration: data1[index]["ListingPrice"],
                 ),
-              ),
+             ),
             );
-        },
+          },
       ),
       ],
       ),
