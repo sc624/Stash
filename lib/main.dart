@@ -38,42 +38,43 @@ class MyApp extends StatelessWidget {
       globals.page = new MyHomePage();
     }
     return MaterialApp(
-        title: 'Stash',
-        theme: ThemeData(
-          // This is the theme of your application.
-            primarySwatch: Colors.orange,
-            primaryColor: defaultTargetPlatform == TargetPlatform.iOS ? Colors.white : null
-        ),
-        home: globals.page,
-        routes: <String, WidgetBuilder>{
-          "Profile": (BuildContext context) => new ProfilePage(),
-          "First Name Settings": (BuildContext context) => new FirstNamePage(),
-          "Last Name Settings": (BuildContext context) => new LastNamePage(),
-          "Password Settings": (BuildContext context) => new PasswordSettingsPage(),
+      title: 'Stash',
+      theme: ThemeData(
+        // This is the theme of your application.
+          primarySwatch: Colors.orange,
+          primaryColor: defaultTargetPlatform == TargetPlatform.iOS ? Colors.white : null
+      ),
+      // home: globals.page,
+      home: globals.page,
+      routes: <String, WidgetBuilder>{
+        "Profile": (BuildContext context) => new ProfilePage(),
+        "First Name Settings": (BuildContext context) => new FirstNamePage(),
+        "Last Name Settings": (BuildContext context) => new LastNamePage(),
+        "Password Settings": (BuildContext context) => new PasswordSettingsPage(),
 
-          //"Messages": (BuildContext context) => new MessagesPage("Messages"),
-          // "History": (BuildContext context) => new HistoryPage("History"),
+        //"Messages": (BuildContext context) => new MessagesPage("Messages"),
+        // "History": (BuildContext context) => new HistoryPage("History"),
 
-          //"Payment": (BuildContext context) => new PaymentPage(),
-          //"Add Card": (BuildContext context) => new AddCardPage(),
+        //"Payment": (BuildContext context) => new PaymentPage(),
+        //"Add Card": (BuildContext context) => new AddCardPage(),
 
-          "Settings": (BuildContext context) => new SettingsPage(),
-          "Phone Settings": (BuildContext context) => new PhoneSettingsPage(),
-          "Email Settings": (BuildContext context) => new EmailSettingsPage(),
-          "Location Settings": (BuildContext context) => new LocationSettingsPage("Location Settings"),
-          //"My Listings Settings": (BuildContext context) => new MyListingsSettingsPage("My Listings"),
-          //"Contact Us": (BuildContext context) => new HelpSupportPage(),
-          //"Privacy Policy": (BuildContext context) => new PrivacyPolicyPage(),
-          //"Terms of Service": (BuildContext context) => new TermsOfServicePage(),
-          //"Licenses": (BuildContext context) => new LicensesPage("Licenses"),
-          "Logout": (BuildContext context) => new LoginPage(),
-          "Main" : (BuildContext context) => new MyHomePage(),
-          "About": (BuildContext context) => new AboutPage(),
-          "All Listings": (BuildContext context) => new AllListingsPage(),
-          "My Listings": (BuildContext context) => new MyListingsPage(),
-          "My Bookings": (BuildContext context) => new BookingPage(),
-          "Login": (BuildContext context) => new LoginPage(),
-        },
+        "Settings": (BuildContext context) => new SettingsPage(),
+        "Phone Settings": (BuildContext context) => new PhoneSettingsPage(),
+        "Email Settings": (BuildContext context) => new EmailSettingsPage(),
+        "Location Settings": (BuildContext context) => new LocationSettingsPage("Location Settings"),
+        //"My Listings Settings": (BuildContext context) => new MyListingsSettingsPage("My Listings"),
+        //"Contact Us": (BuildContext context) => new HelpSupportPage(),
+        //"Privacy Policy": (BuildContext context) => new PrivacyPolicyPage(),
+        //"Terms of Service": (BuildContext context) => new TermsOfServicePage(),
+        //"Licenses": (BuildContext context) => new LicensesPage("Licenses"),
+        "Logout": (BuildContext context) => new LoginPage(),
+        "Main" : (BuildContext context) => new MyHomePage(),
+        "About": (BuildContext context) => new AboutPage(),
+        "All Listings": (BuildContext context) => new AllListingsPage(),
+        "My Listings": (BuildContext context) => new MyListingsPage(),
+        "My Bookings": (BuildContext context) => new BookingPage(),
+        "Login": (BuildContext context) => new LoginPage(),
+      },
     );
 
   }
@@ -88,15 +89,16 @@ class MyHomePage extends StatefulWidget {
 class HomePageState extends State<MyHomePage> {
   Completer<GoogleMapController> _controller = Completer();
 
+  List data1;
 
-    @override
+  @override
   void initState() {
-    super.initState();
+    //super.initState();
+    this._fetchAll();
   }
 
+  double zoomVal = 8.0;
 
-  double zoomVal= 10.0;
-  
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -112,8 +114,8 @@ class HomePageState extends State<MyHomePage> {
               accountEmail: new Text("${globals.useremail}"),
               currentAccountPicture: new CircleAvatar(
                 backgroundColor: Theme
-                  .of(context)
-                  .platform == TargetPlatform.iOS ? Colors.orange[100] : Colors.white,
+                    .of(context)
+                    .platform == TargetPlatform.iOS ? Colors.orange[100] : Colors.white,
                 child: new Text("JD"),
               ),
               onDetailsPressed: () {
@@ -153,43 +155,55 @@ class HomePageState extends State<MyHomePage> {
           _buildGoogleMap(context),
           _buildContainer(),
           _zoomminusfunction(),
-          _zoomplusfunction() 
+          _zoomplusfunction()
         ],
       ),
-    ); //scaffold 
+    ); //scaffold
   }
 
 
-   Widget _zoomminusfunction() {
+  Widget _zoomminusfunction() {
     return Align(
       alignment: Alignment.topLeft,
       child: IconButton(
-            icon: Icon(Icons.zoom_out),
-            iconSize: 30.0,
-            color: Colors.orange,
-            onPressed: () {
-              zoomVal--;
-             _minus( zoomVal);
-            }),
+          icon: Icon(Icons.zoom_out),
+          iconSize: 30.0,
+          color: Colors.orange,
+          onPressed: () {
+            zoomVal--;
+            _minus(zoomVal);
+          }),
     );
- }
+  }
 
   Widget _zoomplusfunction() {
-   
+
     return Align(
       alignment: Alignment.topRight,
       child: IconButton(
-            icon: Icon(Icons.zoom_in),
-            iconSize: 30.0,
-            color: Colors.orange,
-            onPressed: () {
-              zoomVal++;
-              _plus(zoomVal);
-            }),
+          icon: Icon(Icons.zoom_in),
+          iconSize: 30.0,
+          color: Colors.orange,
+          onPressed: () {
+            zoomVal++;
+            _plus(zoomVal);
+          }),
     );
- }
+  }
 
- Future<void> _minus(double zoomVal) async {
+
+  Future<String> _fetchAll() async {
+    var response = await http.post(
+      Uri.encodeFull("https://mysterymachine.web.illinois.edu/allListings.php"),
+      headers: {"Accept": "application/json"},
+    );
+    this.setState((){
+      data1 = json.decode(response.body);
+    });
+    return "Success!";
+  }
+
+  Future<void> _minus(double zoomVal) async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(40.1020, -88.2272), zoom: zoomVal)));
   }
@@ -205,165 +219,114 @@ class HomePageState extends State<MyHomePage> {
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 20.0),
         height: 150.0,
-        child: ListView(
+        child: new ListView.builder(
           scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            SizedBox(width: 10.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _boxes(
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3noC_-jIN-n5aXi1aBk5p0gWACCDkqDWlvvTppUMdrjRcoZt0",
-                  40.112328, -88.235005,"Bicycle Storage Space"),
-            ),
-            SizedBox(width: 10.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _boxes(
-                  "https://www.xtraspace.co.za/sites/default/files/garage-living-space-empty-trend-makeover-home-xtraspace.jpg",
-                  40.107483, -88.218795,"Garage Storage Space"),
-            ),
-            SizedBox(width: 10.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _boxes(
-                  "https://s3.amazonaws.com/treehouse-content/uploads/photo_gallery/medium/206035-5bf2c661db83f_8e335c4d27e886346d5ae7993867825c.jpg?v=1542635929",
-                  40.105020, -88.234583,"Basement Storage Space"),
-            ),
-          ],
+          itemCount: data1 == null ? 0 : data1.length,
+          itemBuilder: (BuildContext context, int index){
+            return new Container(
+              //SizedBox(width: 10.0),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: _boxes(
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3noC_-jIN-n5aXi1aBk5p0gWACCDkqDWlvvTppUMdrjRcoZt0",
+                    40.112328, -88.235005,data1[index]["ListingType"], data1[index]["StreetName"],data1[index]["Username"], data1[index]["ListingPrice"]),
+              ),
+            );
+          },
         ),
       ),
     );
   }
 
-  Widget _boxes(String _image, double lat,double long,String listingName) {
+  Widget _boxes(String _image, double lat,double long,String listingName, String streetname, String username, String listingprice ) {
     return  GestureDetector(
-        onTap: () {
-          _gotoLocation(lat,long);
-        },
-        child:Container(
-              child: new FittedBox(
-                child: Material(
-                    color: Colors.white,
-                    elevation: 14.0,
-                    borderRadius: BorderRadius.circular(24.0),
-                    shadowColor: Color(0x802196F3),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          width: 180,
-                          height: 200,
-                          child: ClipRRect(
-                            borderRadius: new BorderRadius.circular(24.0),
-                            child: Image(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(_image),
-                            ),
-                          ),),
-                          Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: myDetailsContainer1(listingName),
-                          ),
-                        ),
+      onTap: () {
+        _gotoLocation(lat,long);
+      },
+      child:Container(
+        child: new FittedBox(
+          child: Material(
+              color: Colors.white,
+              elevation: 3.0,
+              borderRadius: BorderRadius.circular(24.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    width: 160,
+                    height: 200,
+                    child: ClipRRect(
+                      borderRadius: new BorderRadius.circular(24.0),
+                      child: Image(
+                        fit: BoxFit.fill,
+                        image: NetworkImage(_image),
+                      ),
+                    ),),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0, bottom: 30.0),
+                      child: myDetailsContainer1(listingName, streetname, username, listingprice),
+                    ),
+                  ),
 
-                      ],)
-                ),
-              ),
-            ),
+                ],)
+          ),
+        ),
+      ),
     );
   }
 
-  Widget myDetailsContainer1(String listingName) {
+  Widget myDetailsContainer1(String listingName, String streetname, String username, String listingprice ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
+          padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
           child: Container(
               child: Text(listingName,
-            style: TextStyle(
-                color: Colors.orange,
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold),
-          )),
+                style: TextStyle(
+                    color: Colors.orange,
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold),
+              )),
         ),
         SizedBox(height:5.0),
         Container(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Container(
-                  child: Text(
-                "4.6",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 19.0,
-                ),
-              )),
-              Container(
-                child: Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
-              ),
-              Container(
-                child: Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
-              ),
-              Container(
-                child: Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
-              ),
-              Container(
-                child: Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
-              ),
-              Container(
-                child: Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
-              ),
-               Container(
-                  child: Text(
-                "(17)",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18.0,
-                ),
-              )),
-            ],
-          )),
-          SizedBox(height:5.0),
-        Container(
-                  child: Text(
-                "512 S. Third St.",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18.0,
-                ),
-              )),
-              SizedBox(height:5.0),
-        Container(
             child: Text(
-          "\$39.99 per month",
-          style: TextStyle(
-              color: Colors.black54,
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold),
-        )),
+              streetname,
+              style: TextStyle(
+                color: Colors.black54,
+                fontSize: 20.0,
+              ),
+            )),
+        SizedBox(height:5.0),
+        Container(
+          child: Padding(
+            padding: const EdgeInsets.all(1.0),
+            child: Text(
+              "Host: " + username ,
+              style: TextStyle(
+                color: Colors.black54,
+                fontSize: 20.0,
+                //fontWeight: FontWeight.bold
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height:5.0),
+        Container(
+          child: Padding(
+            padding: const EdgeInsets.all(1.0),
+            child: Text(
+              "\$" + listingprice + " per month",
+              style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -391,7 +354,7 @@ class HomePageState extends State<MyHomePage> {
       bearing: 50.0,)));
   }
 }//home class
- 
+
 Marker host1Marker = Marker(
   markerId: MarkerId('host1'),
   position: LatLng(40.112328, -88.235005),
@@ -439,6 +402,3 @@ class NavButton extends StatelessWidget {
     );
   }
 }
-
-
-
