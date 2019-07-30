@@ -7,12 +7,14 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:stash/edit_listing.dart';
 import 'package:stash/globals.dart' as globals;
+import 'package:stash/all_listings.dart';
+
 
 
 
 class MyListingsPage extends StatefulWidget {
-   @override 
-   MyListingsPageState createState() => new MyListingsPageState();
+  @override
+  MyListingsPageState createState() => new MyListingsPageState();
 }
 
 class MyListingsPageState extends State<MyListingsPage> {
@@ -23,14 +25,14 @@ class MyListingsPageState extends State<MyListingsPage> {
   int pls;
 
 //alert dialog
-bool _cancel() {
+  bool _cancel() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Confirm Deletion"),
-          content: new Text("Are you sure you want to delete your listing?"),
+          content: new Text("Are you sure you want to delete this listing?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
@@ -50,7 +52,7 @@ bool _cancel() {
                 setState(() {
                   flag = false;
                 });
-                Navigator.of(context).pop();
+               Navigator.of(context).pop();
               },
             ),
           ],
@@ -63,7 +65,7 @@ bool _cancel() {
 
 
   //back end call to get all listings
-  Future<String> getData() async {
+  Future<Null> getData() async {
 //    print('${globals.userID}');
     var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/myListings.php");
     var response = await http.post(url,
@@ -78,8 +80,6 @@ bool _cancel() {
     this.setState((){
       data = json.decode(response.body);
     });
-
-    return "Success!";
   }
 
 
@@ -93,9 +93,9 @@ bool _cancel() {
     var url = "https://mysterymachine.web.illinois.edu/deleteListing.php";
 
     http.post(url, body: {
-       "listingid": globals.lID,
+      "listingid": globals.lID,
     });
-}
+  }
 
 
 //body
@@ -107,48 +107,67 @@ bool _cancel() {
         elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
       ),
       body: new ListView.builder(
+        scrollDirection: Axis.vertical,
+        physics: ClampingScrollPhysics(),
+        shrinkWrap: true,
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index){
-          return new Card(
-            child:ListTile(
-                title: new Text(data[index]["ListingType"]),
-                trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    globals.lID = data[index]["ListingID"];
-                    pls = index;
-                    _cancel();
-                  },
+          return InkWell(
+            onTap: () {
+              globals.lID = data[index]["ListingID"];
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EditListingPage()),
+              );
+            },
+            onDoubleTap: () {
+                 globals.lID = data[index]["ListingID"];
+                 _cancel();
+                 pls = index;
+                //  data.removeAt(index);
+            },
+            child: new Card(
+                child:CustomListItemTwo(
+                  // trailing: IconButton(
+                  // icon: Icon(Icons.delete),
+                  // onPressed: () {
+                  //   print('please');
+                  //   },
+                  // ),
+                  thumbnail: Container(
+                    decoration: const BoxDecoration(color: Colors.orange),
+                  ),
+                  title: data[index]["ListingType"],
+                  subtitle: data[index]["StreetName"],
+                  subtitle2: data[index]["City"],
+                  subtitle3: data[index]["State"],
+                  author: globals.username,
+                  publishDate: globals.useremail,
+                  readDuration: data[index]["ListingPrice"],
                 ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => EditListingPage()),
-                  );
-                  globals.lID = data[index]["ListingID"];
-                }            
-                ),
+            ),
           );
         },
       ),
-      
+
 
 
       floatingActionButton: Align(
-        child: FloatingActionButton.extended(
-          icon: Icon(Icons.add),
-          label: Text("Add Listing",
-          style: TextStyle(fontSize: 14.5)),
-          foregroundColor: Colors.white,
-          backgroundColor: Colors.orange,
-          onPressed: (){
-            Navigator.push(
-              context, 
-              MaterialPageRoute(builder: (context) => AddListingPage()),
-            );
-          },
-        ),
-        alignment: Alignment(0.12,0.70)),
+          child: FloatingActionButton.extended(
+            icon: Icon(Icons.add),
+            label: Text("Add Listing",
+                style: TextStyle(fontSize: 14.5)),
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.orange,
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddListingPage()),
+              );
+            },
+          ),
+          alignment: Alignment(0.12,0.70)),
     );
   }
 }
+

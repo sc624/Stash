@@ -15,8 +15,7 @@ class _EditListingPage extends State<EditListingPage> {
 
   List data;
 
-
-//all text edit fields
+  /*-------------all text edit fields------------*/
   TextEditingController priceController = TextEditingController();
   TextEditingController typeController = TextEditingController();
   TextEditingController dimController = TextEditingController();
@@ -24,13 +23,44 @@ class _EditListingPage extends State<EditListingPage> {
   TextEditingController zipController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController stateController = TextEditingController();
-  //TextEditingController listController = TextEditingController();
   _EditListingPage(this.title);
   final String title;
 
-//backend update function
+
+  //back end call to get current listing
+  Future<Null> getData() async {
+    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/getListingInfo.php");
+    var response = await http.post(url,
+      headers: {
+        "Accept": "application/json"
+      },
+      body: {
+        "listingid": globals.lID,
+      },
+    );
+    this.setState((){
+      data = json.decode(response.body);
+    });
+
+    typeController.text = data[0]['ListingType'];
+    dimController.text = data[0]['Dimensions'];
+    priceController.text = data[0]['ListingPrice'];
+    streetController.text = data[0]['StreetName'];
+    zipController.text = data[0]['ZipCode'];
+    cityController.text = data[0]['City'];
+    stateController.text = data[0]['State'];
+
+
+  }
+
+
+  @override
+  void initState(){
+    this.getData();
+  }
+
+  /*-------------backend update function------------*/
   void _updateData() {
-    print(globals.lID);
     var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/updateListing.php");
 
     http.post(url, body: {
@@ -43,7 +73,6 @@ class _EditListingPage extends State<EditListingPage> {
        "state": stateController.text,
        "listingid": globals.lID,
     });
-
   }
 
   @override
@@ -63,7 +92,12 @@ class _EditListingPage extends State<EditListingPage> {
           onPressed: (){
             _updateData();
             Navigator.of(context).pop();
-          },
+            Navigator.of(context).pop();
+            Navigator.push(
+              context,
+              new MaterialPageRoute (
+                  builder: (BuildContext context) => new MyListingsPage()),
+            );          },
         ),
         alignment: Alignment(0.10,0.925)),
         body: new ListView(

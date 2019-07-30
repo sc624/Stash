@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-//import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 // Main Pages
 import 'package:stash/profile_page.dart';
@@ -19,7 +18,7 @@ import 'package:stash/settings_pages/subpages/email_settings.dart';
 import 'package:stash/settings_pages/subpages/location_settings.dart';
 //import 'package:stash/settings_pages/subpages/my_listings_settings.dart';
 import 'package:stash/my_listings.dart';
-
+import 'package:stash/reserved.dart';
 
 import 'dart:async';
 
@@ -72,6 +71,7 @@ class MyApp extends StatelessWidget {
           "About": (BuildContext context) => new AboutPage(),
           "All Listings": (BuildContext context) => new AllListingsPage(),
           "My Listings": (BuildContext context) => new MyListingsPage(),
+          "My Bookings": (BuildContext context) => new BookingPage(),
           "Login": (BuildContext context) => new LoginPage(),
         },
     );
@@ -130,6 +130,11 @@ class HomePageState extends State<MyHomePage> {
             new NavButton(
               label: "My Listings",
               route: "My Listings",
+            ),
+            new Divider(),
+            new NavButton(
+              label: "My Bookings",
+              route: "My Bookings",
             ),
             new Divider(),
             new NavButton(
