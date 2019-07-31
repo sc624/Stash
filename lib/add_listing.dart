@@ -165,9 +165,9 @@ class _AddListingPage extends State<AddListingPage> {
            onChanged: (v) => dimController.text = v,
            decoration: InputDecoration(
              border: OutlineInputBorder(),
-             fillColor: Colors.deepOrange,
+             fillColor: Colors.orange,
              hasFloatingPlaceholder:true,
-             hintText: 'e.g. 5x5x5',
+             hintText: 'e.g. 10x10',
           ), 
          ),
          ),
@@ -186,7 +186,7 @@ class _AddListingPage extends State<AddListingPage> {
            onChanged: (v) => streetController.text = v,
            decoration: InputDecoration(
              border: OutlineInputBorder(),
-             fillColor: Colors.deepOrange,
+             fillColor: Colors.orange,
              hasFloatingPlaceholder:true,
              hintText: 'Street Name',
           ), 
@@ -199,7 +199,7 @@ class _AddListingPage extends State<AddListingPage> {
            onChanged: (v) => zipController.text = v,
            decoration: InputDecoration(
              border: OutlineInputBorder(),
-             fillColor: Colors.deepOrange,
+             fillColor: Colors.orange,
              hasFloatingPlaceholder:true,
              hintText: 'Zip Code',
           ), 

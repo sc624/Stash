@@ -21,9 +21,7 @@ import 'package:stash/my_listings.dart';
 import 'package:stash/reserved.dart';
 import 'package:stash/advanced_query.dart';
 
-
 import 'dart:async';
-
 
 void main() => runApp(MyApp());
 
@@ -300,7 +298,7 @@ class HomePageState extends State<MyHomePage> {
         SizedBox(height:5.0),
         Container(
                 child: Text(
-                city + "\," + state,
+                city +  "\," + state,
                 style: TextStyle(
                   color: Colors.black54,
                   fontSize: 20.0,
