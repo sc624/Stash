@@ -4,9 +4,13 @@ import 'package:stash/my_listings.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:stash/globals.dart' as globals;
-
 //import 'dart:async';
 import 'dart:convert';
+
+
+  
+
+
 
 String type, dim, desc, street, city, state, zip;
 
@@ -19,26 +23,8 @@ class AddListingPage extends StatefulWidget {
 
 class _AddListingPage extends State<AddListingPage> {
 
-List data1;
 
- Future<Null> printData() async {
-    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/printData.php");
-    var response = await http.post(url,
-      headers: {
-        "Accept": "application/json"
-      },
-      body: {
-        "Description": desc,
-        "dimensions": dim,
-        "city": city,
-        "state": state,
-      },
-    );
 
-    this.setState((){
-      data1 = json.decode(response.body);
-    });
-  }
 
 
   /*------------------------all controllers---------------------*/
@@ -78,7 +64,6 @@ List data1;
               state = stateController.text;
               zip = zipController.text;
             });
-            printData();
             //_addData();
             //Navigator.of(context).pop();
             //Navigator.of(context).pop();
@@ -237,29 +222,69 @@ class ListingConfirmationPageState extends State<ListingConfirmationPage> {
 
 TextEditingController priceController = TextEditingController();
 
-// List data1;
+List data2;
+var data1, price, low, high, n1, n2, n3, n4;
+var lt1, p1, st1, c1, s1, d1;
+var lt2, p2, st2, c2, s2, d2;
+var lt3, p3, st3, c3, s3, d3;
+var lt4, p4, st4, c4, s4, d4;
+var parsed = '';
+
+ Future<Null> printData() async {
+    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/printData.php");
+    var response = await http.post(url,
+      headers: {
+        "Accept": "application/json"
+      },
+      body: {
+        "Description": desc,
+        "dimensions": dim,
+        "city": city,
+        "state": state,
+      },
+    );
+
+    data1 = json.decode(response.body);
+    
+    for(int i = 0; i < data1.length; i++){
+      parsed += data1[i];
+    }
+     price = parsed.split("TIRED")[0];
+     low = parsed.split("TIRED")[1];
+     high = parsed.split("TIRED")[2];
+     n1 = parsed.split("TIRED")[3];
+     n2 = parsed.split("TIRED")[4];
+     n3 = parsed.split("TIRED")[5];
+     n4 = parsed.split("TIRED")[6];
+
+    print(low);
+    print(high);
+  }
+
+  @override
+  void initState() {
+    printData();
+  }
 
 
-//  Future<Null> printData() async {
-//     var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/printData.php");
-//     var response = await http.post(url,
-//       headers: {
-//         "Accept": "application/json"
-//       },
-//       body: {
-//         "userid": globals.userID,
-//       },
-//     );
+    Future<Null> getData(var neigh) async {
+    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/getListingInfo.php");
+    var response = await http.post(url,
+      headers: {
+        "Accept": "application/json"
+      },
+      body: {
+        "listingid": neigh,
+      },
+    );
+    this.setState((){
+      data2 = json.decode(response.body);
+    });
+  }
 
-//     this.setState((){
-//       data1 = json.decode(response.body);
-//     });
-//   }
 
   void _addData() {
-
-    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/addListing.php");
-           
+    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/addListing.php");        
     http.post(url, body: {
       "userid" : globals.userID,
       "listingprice": priceController.text,
@@ -303,7 +328,7 @@ TextEditingController priceController = TextEditingController();
         ),
         alignment: Alignment(0.12,0.85)),
         body: new ListView(
-        children: <Widget> [
+          children: <Widget> [
           Padding(
             padding: const EdgeInsets.only(left: 17.5, top: 15.0),
             child: const Text(
@@ -312,22 +337,30 @@ TextEditingController priceController = TextEditingController();
               textScaleFactor: 1.2,
             ),
           ),
-        Padding(
-         padding: const EdgeInsets.only(top: 10.0, left:15.0, right: 15.0),
-         child: TextField(
-           controller: priceController,
-           onChanged: (v) => priceController.text = v,
-           decoration: InputDecoration(
-             border: OutlineInputBorder(),
-             fillColor: Colors.orange,
-             hintText: 'e.g. 29',
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, left:15.0, right: 15.0),
+            child: TextField(
+              controller: priceController,
+              onChanged: (v) => priceController.text = v,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                fillColor: Colors.orange,
+                hintText: 'e.g. 29',
                 ), 
             ),
          ),
-        ],
+         Padding(
+            padding: const EdgeInsets.only(left: 17.5, top: 15.0),
+            child: Text(
+              "Stash Price Recommendation Range: $low to $high" ,
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textScaleFactor: 1.2,
+            ),
+          ),
+          ],
 
         ),
-        );
+    );
 
   }   
 }
