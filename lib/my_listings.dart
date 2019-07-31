@@ -36,7 +36,7 @@ class MyListingsPageState extends State<MyListingsPage> {
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
-              child: new Text("Yes"),
+              child: new Text("Confirm"),
               onPressed: () {
                 _deleteData();
                 print('${globals.lID}');
@@ -47,7 +47,7 @@ class MyListingsPageState extends State<MyListingsPage> {
               },
             ),
             new FlatButton(
-              child: new Text("No"),
+              child: new Text("Cancel"),
               onPressed: () {
                 setState(() {
                   flag = false;
@@ -128,12 +128,6 @@ class MyListingsPageState extends State<MyListingsPage> {
             },
             child: new Card(
                 child:CustomListItemTwo(
-                  // trailing: IconButton(
-                  // icon: Icon(Icons.delete),
-                  // onPressed: () {
-                  //   print('please');
-                  //   },
-                  // ),
                   thumbnail: Container(
                     decoration: const BoxDecoration(color: Colors.orange),
                   ),
@@ -155,7 +149,7 @@ class MyListingsPageState extends State<MyListingsPage> {
       floatingActionButton: Align(
           child: FloatingActionButton.extended(
             icon: Icon(Icons.add),
-            label: Text("Add Listing",
+            label: Text("New Listing",
                 style: TextStyle(fontSize: 14.5)),
             foregroundColor: Colors.white,
             backgroundColor: Colors.orange,

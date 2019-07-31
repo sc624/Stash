@@ -26,6 +26,21 @@ class AboutPage extends StatelessWidget {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0) ,
+             child: new ListTile(
+                title: new Text(
+                  "Instruction Taps",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: new Text(
+                    "single tap to RESERVE a listing, double tap to DELETE a listing",
+                  ),
+                  ),
+             ),
+            ),
         ]
       )
     );

@@ -20,14 +20,14 @@ class ProfilePage extends StatelessWidget {
                 radius: 36.0,
                 backgroundColor: Theme
                   .of(context)
-                  .platform == TargetPlatform.iOS ? Colors.orange : Colors.white,
-                child: new Text("JD"),
+                  .platform == TargetPlatform.iOS ? Colors.orange[100] : Colors.white,
+                child: Icon(Icons.person),
               ),
             ),
             new ProfileButton(
               label: "Username",
               subtitle: globals.username,
-              route: "Phone Settings",
+              route: "First Name Settings",
             ),
             new ProfileButton(
               label: "First Name",

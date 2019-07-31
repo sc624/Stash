@@ -30,7 +30,7 @@ class BookingPageState extends State<BookingPage>{
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
-              child: new Text("Yes"),
+              child: new Text("Confirm"),
               onPressed: () {
                 _remove();
                 print('${globals.lID}');
@@ -41,7 +41,7 @@ class BookingPageState extends State<BookingPage>{
               },
             ),
             new FlatButton(
-              child: new Text("No"),
+              child: new Text("Cancel"),
               onPressed: () {
                 setState(() {
                   flag = false;

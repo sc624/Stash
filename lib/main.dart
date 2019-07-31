@@ -71,6 +71,7 @@ class MyApp extends StatelessWidget {
         "About": (BuildContext context) => new AboutPage(),
         "All Listings": (BuildContext context) => new AllListingsPage(),
         "My Listings": (BuildContext context) => new MyListingsPage(),
+        //"Confirm Listing": (BuildContext context) => new ListingConfirmationPage(),
         "My Bookings": (BuildContext context) => new BookingPage(),
         "Useful Info": (BuildContext context) => new Advanced(),
         "Login": (BuildContext context) => new LoginPage(),
@@ -115,7 +116,8 @@ class HomePageState extends State<MyHomePage> {
                 backgroundColor: Theme
                     .of(context)
                     .platform == TargetPlatform.iOS ? Colors.orange[100] : Colors.white,
-                child: new Text("JD"),
+                child: Icon(Icons.person,
+                size: 35.0),
               ),
               onDetailsPressed: () {
                 Navigator.of(context).pop();
@@ -162,36 +164,41 @@ class HomePageState extends State<MyHomePage> {
           _zoomplusfunction()
         ],
       ),
-    ); //scaffold
+    ); 
   }
 
 
   Widget _zoomminusfunction() {
     return Align(
-      alignment: Alignment.topLeft,
-      child: IconButton(
-            icon: Icon(Icons.zoom_out),
-            iconSize: 30.0,
-            color: Colors.orange,
-            onPressed: () {
-              zoomVal--;
-             _minus(zoomVal);
-            }),
-    );
-  }
+      alignment: Alignment.topRight,
+      child: Padding(
+        padding: EdgeInsets.only(top:80.0),
+            child: IconButton(
+              icon: Icon(Icons.zoom_out),
+              iconSize: 35.0,
+              color: Colors.orange,
+              onPressed: () {
+                zoomVal--;
+              _minus(zoomVal);
+              }),
+          ),
+        );
+    }
 
   Widget _zoomplusfunction() {
-
     return Align(
       alignment: Alignment.topRight,
-      child: IconButton(
-          icon: Icon(Icons.zoom_in),
-          iconSize: 30.0,
-          color: Colors.orange,
-          onPressed: () {
-            zoomVal++;
-            _plus(zoomVal);
-          }),
+      child: Padding(
+        padding: EdgeInsets.only(top:45.0),
+          child: IconButton(
+            icon: Icon(Icons.zoom_in),
+            iconSize: 35.0,
+            color: Colors.orange,
+            onPressed: () {
+              zoomVal++;
+              _plus(zoomVal);
+            }),
+      ),
     );
   }
 
@@ -360,7 +367,13 @@ class HomePageState extends State<MyHomePage> {
   }
 }//home class
 
+
+
+//markers
 Marker host1Marker = Marker(
+  onTap: () {
+    
+  },
   markerId: MarkerId('host1'),
   position: LatLng(40.112328, -88.235005),
   infoWindow: InfoWindow(title: 'Bedroom: \$64 per month'),

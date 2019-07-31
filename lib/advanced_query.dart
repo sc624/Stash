@@ -27,14 +27,22 @@ class AdvancedState extends State<Advanced>{
         title: new Text("Useful Information"),
         ),
       body: new ListView(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0, bottom: 25.0),
         children: <Widget>[
+          Container(
+            alignment: Alignment.center,
+            height: 50,
+            child: new Text(
+              'Tap to view results:',
+               style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+          ),
           Container(
             height: 50,
             color: Colors.amber[200],
             child: ListTile(
               title: Center(
-                child: Text('User Price Average'),
+                child: Text('Average Price Per User'),
               ),
               onTap:(){
                 Navigator.push(
