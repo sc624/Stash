@@ -56,27 +56,10 @@ class AdvancedState extends State<Advanced>{
               onTap:(){
                 Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Average()));
+                    MaterialPageRoute(builder: (context) => Cheapest()));
               }
             ),
           ),
-//          Padding(
-//            padding: const EdgeInsets.all(5.0),
-//          ),
-//          Container(
-//            height: 50,
-//            color: Colors.amber[200],
-//            child: ListTile(
-//              title: Center(
-//                child: Text('Price Recommendation'),
-//              ),
-//              onTap:(){
-//                Navigator.push(
-//                    context,
-//                    MaterialPageRoute(builder: (context) => Average()));
-//              }
-//            ),
-//          ),
         ],
       ),
     );
@@ -169,7 +152,9 @@ class CheapestState extends State<Cheapest>{
         itemBuilder: (BuildContext context, int index){
           return new ListTile(
             title: new Text("User: "+ data[index]["Username"]),
-            subtitle: new Text("Average listing price: \$" + data[index]["PersonAVGPrice"] + " per month"),
+            subtitle: new Text(
+                "Average listing price: \$" + data[index]["PersonAVGPrice"] + " per month"
+            ),
           );
         },
       ),

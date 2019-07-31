@@ -27,6 +27,7 @@ class _EditListingPage extends State<EditListingPage> {
   final String title;
 
 
+
   //back end call to get current listing
   Future<Null> getData() async {
     var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/getListingInfo.php");
@@ -49,8 +50,6 @@ class _EditListingPage extends State<EditListingPage> {
     zipController.text = data[0]['ZipCode'];
     cityController.text = data[0]['City'];
     stateController.text = data[0]['State'];
-
-
   }
 
 

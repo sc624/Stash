@@ -91,8 +91,27 @@ class MyHomePage extends StatefulWidget {
 
 class HomePageState extends State<MyHomePage> {
   Completer<GoogleMapController> _controller = Completer();
-
   List data1;
+  List images;
+  int list_length;
+
+  //get image url
+//  Future<Null> imgurl(int num) async {
+//    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/displayImage.php");
+//    var response = await http.post(url,
+//      headers: {
+//        "Accept": "application/json"
+//      },
+//      body: {
+//        "listingid": data1[num]["listingid"],
+//      },
+//    );
+//    print(json.decode(response.body));
+//    this.setState((){
+//      images.add(json.decode(response.body));
+//    });
+//  }
+
 
   @override
   void initState() {
@@ -237,7 +256,7 @@ class HomePageState extends State<MyHomePage> {
                 padding: const EdgeInsets.all(8.0),
                 child: _boxes(
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3noC_-jIN-n5aXi1aBk5p0gWACCDkqDWlvvTppUMdrjRcoZt0",
-                    40.112328, -88.235005,data1[index]["ListingType"], data1[index]["StreetName"],data1[index]["Username"], data1[index]["ListingPrice"]),
+                    40.112328, -88.235005, data1[index]["ListingType"], data1[index]["StreetName"],data1[index]["Username"], data1[index]["ListingPrice"]),
               ),
             );
           },

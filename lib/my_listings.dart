@@ -21,6 +21,7 @@ class MyListingsPageState extends State<MyListingsPage> {
   //MyListingsPageState(this.title);
   //final String title;
   List data;
+  List data1;
   bool flag;
   int pls;
 
@@ -62,7 +63,22 @@ class MyListingsPageState extends State<MyListingsPage> {
     return flag;
   }
 
+  //advanced function
+  Future<Null> printData() async {
+    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/printData.php");
+    var response = await http.post(url,
+      headers: {
+        "Accept": "application/json"
+      },
+      body: {
+        "userid": globals.userID,
+      },
+    );
 
+    this.setState((){
+      data1 = json.decode(response.body);
+    });
+  }
 
   //back end call to get all listings
   Future<Null> getData() async {
@@ -81,6 +97,8 @@ class MyListingsPageState extends State<MyListingsPage> {
       data = json.decode(response.body);
     });
   }
+
+
 
 
   @override
@@ -115,6 +133,7 @@ class MyListingsPageState extends State<MyListingsPage> {
           return InkWell(
             onTap: () {
               globals.lID = data[index]["ListingID"];
+              printData();
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => EditListingPage()),
@@ -133,14 +152,6 @@ class MyListingsPageState extends State<MyListingsPage> {
                   publishDate: globals.useremail,
                   readDuration: data[index]["ListingPrice"],
                 ),
-//                trailing: IconButton(
-//                  icon: Icon(Icons.delete),
-//                  onPressed: () {
-//                  globals.lID = data[index]["ListingID"];
-//                  pls = index;
-//                  _cancel();
-//                },
-//                ),
             ),
           );
         },
