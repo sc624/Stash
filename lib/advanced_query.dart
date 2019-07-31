@@ -51,7 +51,7 @@ class AdvancedState extends State<Advanced>{
             color: Colors.amber[200],
             child: ListTile(
               title: Center(
-                child: Text('Cheapest By Zip Code'),
+                child: Text('Cheapest Listing By City'),
               ),
               onTap:(){
                 Navigator.push(
@@ -133,7 +133,7 @@ class CheapestState extends State<Cheapest>{
       },
     );
     this.setState((){
-      data = json.decode(response.body);
+      data = json.decode(response.body);//chinny is begging to push
     });
   }
 
@@ -146,7 +146,7 @@ class CheapestState extends State<Cheapest>{
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("User Price Average"),
+        title: new Text("Cheapest Price by City"),
         elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
       ),
       body: new ListView.builder(

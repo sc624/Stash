@@ -169,14 +169,13 @@ class HomePageState extends State<MyHomePage> {
     return Align(
       alignment: Alignment.topLeft,
       child: IconButton(
-        icon: Icon(Icons.zoom_out),
-        iconSize: 30.0,
-        color: Colors.orange,
-        onPressed: () {
-          zoomVal--;
-         _minus(zoomVal);
-        }
-      ),
+            icon: Icon(Icons.zoom_out),
+            iconSize: 30.0,
+            color: Colors.orange,
+            onPressed: () {
+              zoomVal--;
+             _minus(zoomVal);
+            }),
     );
   }
 
