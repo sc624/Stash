@@ -83,150 +83,144 @@ class _EditListingPage extends State<EditListingPage> {
       ),
        floatingActionButton: Align(
           child: FloatingActionButton.extended(
-          icon: Icon(Icons.save_alt),
-          label: Text("Save",
-          style: TextStyle(fontSize: 14.0)),
-          foregroundColor: Colors.white,
-          backgroundColor: Colors.orange,
-          onPressed: (){
-            _updateData();
-            Navigator.of(context).pop();
-            Navigator.of(context).pop();
-            Navigator.push(
-              context,
-              new MaterialPageRoute (
-                  builder: (BuildContext context) => new MyListingsPage()),
-            );
+            icon: Icon(Icons.save_alt),
+            label: Text("Save",
+            style: TextStyle(fontSize: 14.0)),
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.orange,
+            onPressed: (){
+              _updateData();
+              Navigator.pop(context,true);
           },
         ),
         alignment: Alignment(0.10,0.925)),
         body: new ListView(
-              children: <Widget> [
-         Padding(
-            padding: const EdgeInsets.only(left: 17.5, top: 15.0),
-            child: const Text(
-              "Listing Type",
-              style: TextStyle(fontWeight: FontWeight.bold),
-              textScaleFactor: 1.2,
+          children: <Widget> [
+            Padding(
+              padding: const EdgeInsets.only(left: 17.5, top: 15.0),
+              child: const Text(
+                "Listing Type",
+                style: TextStyle(fontWeight: FontWeight.bold),
+                textScaleFactor: 1.2,
+              ),
             ),
-          ),
-         Padding(
-         padding: const EdgeInsets.all(15.0),
-         child: TextField(
-           controller: typeController,
-           onChanged: (v) => typeController.text = v,
-           decoration: InputDecoration(
-             border: OutlineInputBorder(),
-             fillColor: Colors.deepOrange,
-             hintText: 'e.g. Garage Space',
-          ),
-         ),
-         ),
-         Padding(
-            padding: const EdgeInsets.only(left: 17.5, top: 15.0),
-            child: const Text(
-              "Listing Price",
-              style: TextStyle(fontWeight: FontWeight.bold),
-              textScaleFactor: 1.2,
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                controller: typeController,
+                onChanged: (v) => typeController.text = v,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  fillColor: Colors.deepOrange,
+                  hintText: 'e.g. Garage Space',
+                ),
+              ),
             ),
-          ),
-         Padding(
-         padding: const EdgeInsets.all(15.0),
-         child: TextField(
-           controller: priceController,
-           onChanged: (v) => priceController.text = v,
-           decoration: InputDecoration(
-             border: OutlineInputBorder(),
-             fillColor: Colors.deepOrange,
-             hasFloatingPlaceholder:true,
-             hintText: "e.g. Price Per Month",
-          ),
-         ),
-         ),
-           Padding(
-            padding: const EdgeInsets.only(left: 17.5, top: 15.0),
-            child: const Text(
+            Padding(
+              padding: const EdgeInsets.only(left: 17.5, top: 15.0),
+              child: const Text(
+                "Listing Price",
+                style: TextStyle(fontWeight: FontWeight.bold),
+                textScaleFactor: 1.2,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                controller: priceController,
+                onChanged: (v) => priceController.text = v,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  fillColor: Colors.deepOrange,
+                  hasFloatingPlaceholder:true,
+                  hintText: "e.g. Price Per Month",
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 17.5, top: 15.0),
+              child: const Text(
               "Dimensions",
               style: TextStyle(fontWeight: FontWeight.bold),
               textScaleFactor: 1.2,
+              ),
             ),
-          ),
-         Padding(
-         padding: const EdgeInsets.all(15.0),
-         child: TextField(
-           controller: dimController,
-           onChanged: (v) => dimController.text = v,
-           decoration: InputDecoration(
-             border: OutlineInputBorder(),
-             fillColor: Colors.deepOrange,
-             hasFloatingPlaceholder:true,
-             hintText: 'e.g. 5x5x5',
-          ),
-         ),
-         ),
-         Padding(
-            padding: const EdgeInsets.only(left: 17.5, top: 15.0),
-            child: const Text(
-              "Address",
-              style: TextStyle(fontWeight: FontWeight.bold),
-              textScaleFactor: 1.2,
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                controller: dimController,
+                onChanged: (v) => dimController.text = v,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  fillColor: Colors.deepOrange,
+                  hasFloatingPlaceholder:true,
+                  hintText: 'e.g. 5x5x5',
+                ),
+              ),
             ),
-         ),
-         Padding(
-         padding: const EdgeInsets.only(top: 10.0, left:15.0, right: 15.0, bottom: 3.0),
-         child: TextField(
-           controller: streetController,
-           onChanged: (v) => streetController.text = v,
-           decoration: InputDecoration(
-             border: OutlineInputBorder(),
-             fillColor: Colors.deepOrange,
-             hasFloatingPlaceholder:true,
-             hintText: 'Street Name',
-          ),
-         ),
-         ),
-         Padding(
-         padding: const EdgeInsets.only(top: 3.0, left:15.0, right: 15.0, bottom: 3.0),
-         child: TextField(
-           controller: zipController,
-           onChanged: (v) => zipController.text = v,
-           decoration: InputDecoration(
-             border: OutlineInputBorder(),
-             fillColor: Colors.deepOrange,
-             hasFloatingPlaceholder:true,
-             hintText: 'Zip Code',
-          ),
-           keyboardType: TextInputType.phone,
-         ),
-         ),
-         Padding(
-         padding: const EdgeInsets.only(top: 3.0, left:15.0, right: 15.0, bottom: 3.0),
-         child: TextField(
-           controller: cityController,
-           onChanged: (v) => cityController.text = v,
-           decoration: InputDecoration(
-             border: OutlineInputBorder(),
-             fillColor: Colors.deepOrange,
-             hasFloatingPlaceholder:true,
-             hintText: 'City',
-          ),
-         ),
-         ),
-         Padding(
-         padding: const EdgeInsets.only(top: 3.0, left:15.0, right: 15.0, bottom: 3.0),
-         child: TextField(
-           controller: stateController,
-           onChanged: (v) => stateController.text = v,
-           decoration: InputDecoration(
-             border: OutlineInputBorder(),
-             fillColor: Colors.deepOrange,
-             hasFloatingPlaceholder:true,
-             hintText: 'State',
-          ),
-         ),
-         ),
-        ],
-      ),
+            Padding(
+              padding: const EdgeInsets.only(left: 17.5, top: 15.0),
+              child: const Text(
+                "Address",
+                style: TextStyle(fontWeight: FontWeight.bold),
+                textScaleFactor: 1.2,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0, left:15.0, right: 15.0, bottom: 3.0),
+              child: TextField(
+                controller: streetController,
+                onChanged: (v) => streetController.text = v,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  fillColor: Colors.deepOrange,
+                  hasFloatingPlaceholder:true,
+                  hintText: 'Street Name',
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0, left:15.0, right: 15.0, bottom: 3.0),
+              child: TextField(
+                controller: zipController,
+                onChanged: (v) => zipController.text = v,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  fillColor: Colors.deepOrange,
+                  hasFloatingPlaceholder:true,
+                  hintText: 'Zip Code',
+                ),
+                keyboardType: TextInputType.phone,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0, left:15.0, right: 15.0, bottom: 3.0),
+              child: TextField(
+                controller: cityController,
+                onChanged: (v) => cityController.text = v,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  fillColor: Colors.deepOrange,
+                  hasFloatingPlaceholder:true,
+                  hintText: 'City',
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0, left:15.0, right: 15.0, bottom: 3.0),
+              child: TextField(
+                controller: stateController,
+                onChanged: (v) => stateController.text = v,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  fillColor: Colors.deepOrange,
+                  hasFloatingPlaceholder:true,
+                  hintText: 'State',
+                ),
+              ),
+            ),
+          ],
+        ),
     );
   }
 }

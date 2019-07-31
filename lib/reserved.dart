@@ -18,27 +18,32 @@ class BookingPageState extends State<BookingPage>{
   int pls;
 
   // flutter defined function
-  bool _cancel() {
-    bool flag;
+  void _cancel() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Confirm"),
+          title: new Text("Confirm Deletion"),
           content: new Text("Are you sure you want to cancel your booking?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
-              child: new Text("Accept"),
+              child: new Text("Yes"),
               onPressed: () {
                 _remove();
+                print('${globals.lID}');
+                setState(() {
+                data.removeAt(pls);
+                });
                 Navigator.of(context).pop();
               },
             ),
             new FlatButton(
-              child: new Text("Close"),
+              child: new Text("No"),
               onPressed: () {
+                setState(() {
+                });
                 Navigator.of(context).pop();
               },
             ),
@@ -46,7 +51,6 @@ class BookingPageState extends State<BookingPage>{
         );
       },
     );
-    return flag;
   }
 
   void _remove(){
@@ -95,17 +99,19 @@ class BookingPageState extends State<BookingPage>{
             itemCount: data == null ? 0 : data.length,
             itemBuilder: (BuildContext context, int index){
               return InkWell(
-                onTap:(){
+                onDoubleTap:(){
                   globals.lID = data[index]["ListingID"];
 //                  pls = index;
                   _cancel();
-                  data.removeAt(index);
+                  pls = index;
                 },
                 child: new Card(
                   //custom list tile
                   child:CustomListItemTwo(
-                    thumbnail: Container(
-                      decoration: const BoxDecoration(color: Colors.pink),
+                    thumbnail: Icon(
+                      Icons.home,
+                      size: 90.0,
+                      color: Colors.orange,
                     ),
                     title: data[index]["ListingType"],
                     subtitle: data[index]["StreetName"],

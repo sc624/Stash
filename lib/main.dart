@@ -21,10 +21,7 @@ import 'package:stash/my_listings.dart';
 import 'package:stash/reserved.dart';
 import 'package:stash/advanced_query.dart';
 
-
-
 import 'dart:async';
-
 
 void main() => runApp(MyApp());
 
@@ -93,25 +90,6 @@ class HomePageState extends State<MyHomePage> {
   Completer<GoogleMapController> _controller = Completer();
   List data1;
   List images;
-  int list_length;
-
-  //get image url
-//  Future<Null> imgurl(int num) async {
-//    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/displayImage.php");
-//    var response = await http.post(url,
-//      headers: {
-//        "Accept": "application/json"
-//      },
-//      body: {
-//        "listingid": data1[num]["listingid"],
-//      },
-//    );
-//    print(json.decode(response.body));
-//    this.setState((){
-//      images.add(json.decode(response.body));
-//    });
-//  }
-
 
   @override
   void initState() {
@@ -120,7 +98,6 @@ class HomePageState extends State<MyHomePage> {
   }
 
   double zoomVal = 8.0;
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -132,16 +109,15 @@ class HomePageState extends State<MyHomePage> {
         child: new ListView(
           children: <Widget>[
             new UserAccountsDrawerHeader(
-              accountName: new Text("${globals.firstname}"),
+              accountName: new Text("Hello, ${globals.firstname} ${globals.lastname}"),
               accountEmail: new Text("${globals.useremail}"),
               currentAccountPicture: new CircleAvatar(
                 backgroundColor: Theme
                     .of(context)
                     .platform == TargetPlatform.iOS ? Colors.orange[100] : Colors.white,
-                child: new Text("JD"),
+                child: new Text("Stash"),
               ),
               onDetailsPressed: () {
-                Navigator.of(context).pop();
                 Navigator.of(context).pushNamed("Profile");
               },
             ),
@@ -193,13 +169,14 @@ class HomePageState extends State<MyHomePage> {
     return Align(
       alignment: Alignment.topLeft,
       child: IconButton(
-          icon: Icon(Icons.zoom_out),
-          iconSize: 30.0,
-          color: Colors.orange,
-          onPressed: () {
-            zoomVal--;
-            _minus(zoomVal);
-          }),
+        icon: Icon(Icons.zoom_out),
+        iconSize: 30.0,
+        color: Colors.orange,
+        onPressed: () {
+          zoomVal--;
+         _minus(zoomVal);
+        }
+      ),
     );
   }
 
@@ -208,13 +185,14 @@ class HomePageState extends State<MyHomePage> {
     return Align(
       alignment: Alignment.topRight,
       child: IconButton(
-          icon: Icon(Icons.zoom_in),
-          iconSize: 30.0,
-          color: Colors.orange,
-          onPressed: () {
-            zoomVal++;
-            _plus(zoomVal);
-          }),
+        icon: Icon(Icons.zoom_in),
+        iconSize: 30.0,
+        color: Colors.orange,
+        onPressed: () {
+          zoomVal++;
+          _plus(zoomVal);
+        }
+      ),
     );
   }
 
@@ -230,7 +208,8 @@ class HomePageState extends State<MyHomePage> {
     return "Success!";
   }
 
-  Future<void> _minus(double zoomVal) async {
+
+ Future<void> _minus(double zoomVal) async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(40.1020, -88.2272), zoom: zoomVal)));
   }
@@ -250,22 +229,22 @@ class HomePageState extends State<MyHomePage> {
           scrollDirection: Axis.horizontal,
           itemCount: data1 == null ? 0 : data1.length,
           itemBuilder: (BuildContext context, int index){
-            return new Container(
-              //SizedBox(width: 10.0),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: _boxes(
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3noC_-jIN-n5aXi1aBk5p0gWACCDkqDWlvvTppUMdrjRcoZt0",
-                    40.112328, -88.235005, data1[index]["ListingType"], data1[index]["StreetName"],data1[index]["Username"], data1[index]["ListingPrice"]),
-              ),
-            );
+          return new Container(
+            //SizedBox(width: 10.0),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _boxes(
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3noC_-jIN-n5aXi1aBk5p0gWACCDkqDWlvvTppUMdrjRcoZt0",
+                  40.112328, -88.235005,data1[index]["ListingType"], data1[index]["City"], data1[index]["State"],data1[index]["Username"], data1[index]["ListingPrice"]),
+            ),
+          ); 
           },
         ),
       ),
     );
   }
 
-  Widget _boxes(String _image, double lat,double long,String listingName, String streetname, String username, String listingprice ) {
+  Widget _boxes(String _image, double lat,double long,String listingName, String city, String state,String username, String listingprice ) {
     return  GestureDetector(
       onTap: () {
         _gotoLocation(lat,long);
@@ -273,37 +252,43 @@ class HomePageState extends State<MyHomePage> {
       child:Container(
         child: new FittedBox(
           child: Material(
-              color: Colors.white,
-              elevation: 3.0,
-              borderRadius: BorderRadius.circular(24.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    width: 160,
-                    height: 200,
-                    child: ClipRRect(
-                      borderRadius: new BorderRadius.circular(24.0),
-                      child: Image(
-                        fit: BoxFit.fill,
-                        image: NetworkImage(_image),
-                      ),
-                    ),),
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0, bottom: 30.0),
-                      child: myDetailsContainer1(listingName, streetname, username, listingprice),
-                    ),
+            color: Colors.white,
+            elevation: 3.0,
+            borderRadius: BorderRadius.circular(24.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  child: Icon(
+                    Icons.home,
+                    size: 90.0,
+                    color: Colors.orange,
                   ),
-
-                ],)
+                  width: 100,
+                  height: 100,
+//                  child: ClipRRect(
+//                    borderRadius: new BorderRadius.circular(24.0),
+//                    child: Image(
+//                      fit: BoxFit.fill,
+//                      image: NetworkImage(_image),
+//                    ),
+//                  ),
+                ),
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0, bottom: 30.0),
+                    child: myDetailsContainer1(listingName, city, state, username, listingprice),
+                  ),
+                ),
+              ],
+            )
           ),
         ),
       ),
     );
   }
 
-  Widget myDetailsContainer1(String listingName, String streetname, String username, String listingprice ) {
+  Widget myDetailsContainer1(String listingName, String city, String state, String username, String listingprice ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
@@ -311,48 +296,48 @@ class HomePageState extends State<MyHomePage> {
           padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
           child: Container(
               child: Text(listingName,
-                style: TextStyle(
-                    color: Colors.orange,
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold),
-              )),
+              style: TextStyle(
+                color: Colors.orange,
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold),
+          )),
         ),
         SizedBox(height:5.0),
         Container(
-            child: Text(
-              streetname,
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 20.0,
-              ),
-            )),
+                child: Text(
+                city +  "\, " + state,
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 20.0,
+                ),
+              )),
         SizedBox(height:5.0),
         Container(
           child: Padding(
-            padding: const EdgeInsets.all(1.0),
-            child: Text(
+          padding: const EdgeInsets.all(1.0),
+              child: Text(
               "Host: " + username ,
               style: TextStyle(
-                color: Colors.black54,
-                fontSize: 20.0,
-                //fontWeight: FontWeight.bold
+                  color: Colors.black54,
+                  fontSize: 20.0,
+                  //fontWeight: FontWeight.bold
+                ),
               ),
-            ),
-          ),
+        ),
         ),
         SizedBox(height:5.0),
         Container(
           child: Padding(
-            padding: const EdgeInsets.all(1.0),
-            child: Text(
+          padding: const EdgeInsets.all(1.0),
+              child: Text(
               "\$" + listingprice + " per month",
               style: TextStyle(
                   color: Colors.black54,
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold
+                ),
               ),
-            ),
-          ),
+        ),
         ),
       ],
     );
@@ -369,7 +354,7 @@ class HomePageState extends State<MyHomePage> {
           _controller.complete(controller);
         },
         markers: {
-          host1Marker,host2Marker,host3Marker,
+          host1Marker,host2Marker,host3Marker,host4Marker, host5Marker, host6Marker, host7Marker, host8Marker, host9Marker, host10Marker,
         },
       ),
     );
@@ -385,7 +370,7 @@ class HomePageState extends State<MyHomePage> {
 Marker host1Marker = Marker(
   markerId: MarkerId('host1'),
   position: LatLng(40.112328, -88.235005),
-  infoWindow: InfoWindow(title: 'Bicycle Storage Space'),
+  infoWindow: InfoWindow(title: 'Bedroom: \$64 per month'),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueOrange,
   ),
@@ -408,6 +393,70 @@ Marker host3Marker = Marker(
     BitmapDescriptor.hueOrange,
   ),
 );
+
+Marker host4Marker = Marker(
+  markerId: MarkerId('host4'),
+  position: LatLng(40.103707, -88.218300),
+  infoWindow: InfoWindow(title: 'Closet Storage Space'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueOrange,
+  ),
+);
+
+Marker host5Marker = Marker(
+  markerId: MarkerId('host5'),
+  position: LatLng(40.113129, -88.230696),
+  infoWindow: InfoWindow(title: 'Extra Storage Space'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueOrange,
+  ),
+);
+
+Marker host6Marker = Marker(
+  markerId: MarkerId('host6'),
+  position: LatLng(40.105544, -88.237661),
+  infoWindow: InfoWindow(title: 'Closet Space'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueOrange,
+  ),
+);
+
+Marker host7Marker = Marker(
+  markerId: MarkerId('host7'),
+  position: LatLng(40.114483, -88.229634),
+  infoWindow: InfoWindow(title: 'Spacious Balcony'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueOrange,
+  ),
+);
+
+Marker host8Marker = Marker(
+  markerId: MarkerId('host8'),
+  position: LatLng(40.110601, -88.229122),
+  infoWindow: InfoWindow(title: 'Big Garage Space'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueOrange,
+  ),
+);
+
+Marker host9Marker = Marker(
+  markerId: MarkerId('host9'),
+  position: LatLng(40.115447, -88.219046),
+  infoWindow: InfoWindow(title: 'Empty Attic'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueOrange,
+  ),
+);
+
+Marker host10Marker = Marker(
+  markerId: MarkerId('host10'),
+  position: LatLng(40.109207, -88.234980),
+  infoWindow: InfoWindow(title: 'Shed Storage'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueOrange,
+  ),
+);
+
 
 class NavButton extends StatelessWidget {
   final String label;

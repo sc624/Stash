@@ -99,6 +99,7 @@ class _ArticleDescription extends StatelessWidget {
                   color: Colors.black54,
                 ),
               ),
+
             ],
           ),
         ),
@@ -109,6 +110,7 @@ class _ArticleDescription extends StatelessWidget {
 class CustomListItemTwo extends StatelessWidget {
   CustomListItemTwo({
     Key key,
+    this.trailing,
     this.thumbnail,
     this.title,
     this.subtitle,
@@ -119,6 +121,7 @@ class CustomListItemTwo extends StatelessWidget {
     this.readDuration,
   }) : super(key: key);
 
+  final Widget trailing;
   final Widget thumbnail;
   final String title;
   final String subtitle;
@@ -174,6 +177,7 @@ class _AllListingsPage extends State<AllListingsPage> {
   final String title;
   TextEditingController searchController = TextEditingController();
   List data1;
+  int pls;
 
   //confirmation dialog
   void _confirm() {
@@ -191,6 +195,9 @@ class _AllListingsPage extends State<AllListingsPage> {
               child: new Text("Accept"),
               onPressed: () {
                 _book();
+                setState(() {
+                  data1.removeAt(pls);
+                });
                 Navigator.of(context).pop();
               },
             ),
@@ -255,20 +262,10 @@ class _AllListingsPage extends State<AllListingsPage> {
         title: new Text("All Listings"),
         elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Align(
-        child: FloatingActionButton.extended(
-          icon: Icon(Icons.search),
-          label: Text("Search",
-          style: TextStyle(fontSize: 14.0)),
-          foregroundColor: Colors.white,
-          backgroundColor: Colors.orange,
-          onPressed: (){
-            _findData();
-          },
-        ),
-        alignment: Alignment(0.12,0.45)),
       body: new ListView(
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        physics: ClampingScrollPhysics(),
       children: <Widget> [
          Padding(
             padding: const EdgeInsets.only(left: 17.5, top: 10.0),
@@ -279,15 +276,21 @@ class _AllListingsPage extends State<AllListingsPage> {
             ),
           ), 
          Padding(
-         padding: const EdgeInsets.all(15.0),
-         child: TextField(
-           controller: searchController,
-           onChanged: (v) => searchController.text = v,
-           decoration: InputDecoration(
-             border: OutlineInputBorder(),
-             fillColor: Colors.deepOrange,
-             hintText: 'e.g. 20',
-          ), 
+           padding: const EdgeInsets.all(15.0),
+           child: TextField(
+             controller: searchController,
+             onChanged: (v) => searchController.text = v,
+             decoration: InputDecoration(
+               suffixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    _findData();
+                  },
+               ),
+               border: OutlineInputBorder(),
+               fillColor: Colors.orange,
+               hintText: 'e.g. 20',
+             ),
          ),
          ),
          new ListView.builder(
@@ -300,16 +303,19 @@ class _AllListingsPage extends State<AllListingsPage> {
                onTap:(){
                  globals.lID = data1[index]["ListingID"];
                  _confirm();
+                 pls = index;
                },
-             child:new Card(
+               child:new Card(
                //custom list tile
-                child:CustomListItemTwo(
-                  thumbnail: Container(
-                    decoration: const BoxDecoration(color: Colors.pink),
-                  ),
+                  child:CustomListItemTwo(
+                    thumbnail: Icon(
+                      Icons.home,
+                      size: 90.0,
+                      color: Colors.orange,
+                    ),
                   title: data1[index]["ListingType"],
                   subtitle: data1[index]["StreetName"],
-                  subtitle2: data1[index]["City"],
+                  subtitle2: data1[index]["City"] + "\,",
                   subtitle3: data1[index]["State"],
                   author: data1[index]["Username"],
                   publishDate: data1[index]["Email"],

@@ -10,8 +10,6 @@ import 'package:stash/globals.dart' as globals;
 import 'package:stash/all_listings.dart';
 
 
-
-
 class MyListingsPage extends StatefulWidget {
   @override
   MyListingsPageState createState() => new MyListingsPageState();
@@ -22,25 +20,23 @@ class MyListingsPageState extends State<MyListingsPage> {
   //final String title;
   List data;
   List data1;
-  bool flag;
   int pls;
 
 //alert dialog
-  bool _cancel() {
+  void _cancel() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Confirm Deletion"),
-          content: new Text("Are you sure you want to delete your listing?"),
+          content: new Text("Are you sure you want to delete this listing?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
               child: new Text("Yes"),
               onPressed: () {
                 _deleteData();
-                print('${globals.lID}');
                 setState(() {
                   data.removeAt(pls);
                 });
@@ -51,16 +47,14 @@ class MyListingsPageState extends State<MyListingsPage> {
               child: new Text("No"),
               onPressed: () {
                 setState(() {
-                  flag = false;
                 });
-                Navigator.of(context).pop();
+               Navigator.of(context).pop();
               },
             ),
           ],
         );
       },
     );
-    return flag;
   }
 
   //advanced function
@@ -131,49 +125,50 @@ class MyListingsPageState extends State<MyListingsPage> {
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index){
           return InkWell(
-            onTap: () {
+            onLongPress: () {
               globals.lID = data[index]["ListingID"];
               printData();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => EditListingPage()),
-              );
+              Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new EditListingPage()),)
+                  .then((val)=> val ? getData() : null);
+            },
+            onDoubleTap: () {
+                 globals.lID = data[index]["ListingID"];
+                 _cancel();
+                 pls = index;
             },
             child: new Card(
-                child:CustomListItemTwo(
-                  thumbnail: Container(
-                    decoration: const BoxDecoration(color: Colors.pink),
-                  ),
-                  title: data[index]["ListingType"],
-                  subtitle: data[index]["StreetName"],
-                  subtitle2: data[index]["City"],
-                  subtitle3: data[index]["State"],
-                  author: globals.username,
-                  publishDate: globals.useremail,
-                  readDuration: data[index]["ListingPrice"],
+              child:CustomListItemTwo(
+                thumbnail: Icon(
+                  Icons.home,
+                  size: 90.0,
+                  color: Colors.orange,
                 ),
+                title: data[index]["ListingType"],
+                subtitle: data[index]["StreetName"],
+                subtitle2: data[index]["City"],
+                subtitle3: data[index]["State"],
+                author: globals.username,
+                publishDate: globals.useremail,
+                readDuration: data[index]["ListingPrice"],
+              ),
             ),
           );
         },
       ),
-
-
-
       floatingActionButton: Align(
-          child: FloatingActionButton.extended(
-            icon: Icon(Icons.add),
-            label: Text("Add Listing",
-                style: TextStyle(fontSize: 14.5)),
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.orange,
-            onPressed: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AddListingPage()),
-              );
-            },
-          ),
-          alignment: Alignment(0.12,0.70)),
+        child: FloatingActionButton.extended(
+          icon: Icon(Icons.add),
+          label: Text("Add Listing",
+              style: TextStyle(fontSize: 14.5)),
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.orange,
+          onPressed: (){
+          Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new AddListingPage()),)
+              .then((val)=> val ? getData() : null);
+          },
+        ),
+      alignment: Alignment(0.12,0.70)),
     );
   }
 }
+
