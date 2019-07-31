@@ -36,7 +36,7 @@ class AboutPage extends StatelessWidget {
                 subtitle: Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: new Text(
-                    "single tap to RESERVE a listing, double tap to DELETE a listing",
+                    "single tap to RESERVE a listing, double tap to DELETE a listing, long press to EDIT",
                   ),
                   ),
              ),

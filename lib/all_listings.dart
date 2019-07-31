@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-//import 'package:stash/my_listings.dart';
-import 'package:flutter/services.dart';
-import 'package:stash/reserved.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -177,6 +174,7 @@ class _AllListingsPage extends State<AllListingsPage> {
   final String title;
   TextEditingController searchController = TextEditingController();
   List data1;
+  int pls;
 
   //confirmation dialog
   void _confirm() {
@@ -194,6 +192,9 @@ class _AllListingsPage extends State<AllListingsPage> {
               child: new Text("Accept"),
               onPressed: () {
                 _book();
+                setState(() {
+                  data1.removeAt(pls);
+                });
                 Navigator.of(context).pop();
               },
             ),
@@ -247,7 +248,6 @@ class _AllListingsPage extends State<AllListingsPage> {
   @override
   void initState(){
     this._fetchAll();
-    this._findData();
   }
 
 
@@ -272,21 +272,21 @@ class _AllListingsPage extends State<AllListingsPage> {
             ),
           ), 
          Padding(
-         padding: const EdgeInsets.all(15.0),
-         child: TextField(
-           controller: searchController,
-           onChanged: (v) => searchController.text = v,
-           decoration: InputDecoration(
-             suffixIcon: IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  _findData();
-                },
+           padding: const EdgeInsets.all(15.0),
+           child: TextField(
+             controller: searchController,
+             onChanged: (v) => searchController.text = v,
+             decoration: InputDecoration(
+               suffixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    _findData();
+                  },
+               ),
+               border: OutlineInputBorder(),
+               fillColor: Colors.orange,
+               hintText: 'e.g. 20',
              ),
-             border: OutlineInputBorder(),
-             fillColor: Colors.orange,
-             hintText: 'e.g. 20',
-          ), 
          ),
          ),
          new ListView.builder(
@@ -299,19 +299,16 @@ class _AllListingsPage extends State<AllListingsPage> {
                onTap:(){
                  globals.lID = data1[index]["ListingID"];
                  _confirm();
+                 pls = index;
                },
-             child:new Card(
+               child:new Card(
                //custom list tile
-                child:CustomListItemTwo(
-                  trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    print('please');
-                    },
-                  ),
-                  thumbnail: Container(
-                    decoration: const BoxDecoration(color: Colors.orange),
-                  ),
+                  child:CustomListItemTwo(
+                    thumbnail: Icon(
+                      Icons.home,
+                      size: 90.0,
+                      color: Colors.orange,
+                    ),
                   title: data1[index]["ListingType"],
                   subtitle: data1[index]["StreetName"],
                   subtitle2: data1[index]["City"] + "\,",

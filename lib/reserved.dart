@@ -18,8 +18,7 @@ class BookingPageState extends State<BookingPage>{
   int pls;
 
   // flutter defined function
-  bool _cancel() {
-    bool flag;
+  void _cancel() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -44,7 +43,6 @@ class BookingPageState extends State<BookingPage>{
               child: new Text("Cancel"),
               onPressed: () {
                 setState(() {
-                  flag = false;
                 });
                 Navigator.of(context).pop();
               },
@@ -53,7 +51,6 @@ class BookingPageState extends State<BookingPage>{
         );
       },
     );
-    return flag;
   }
 
   void _remove(){
@@ -111,8 +108,10 @@ class BookingPageState extends State<BookingPage>{
                 child: new Card(
                   //custom list tile
                   child:CustomListItemTwo(
-                    thumbnail: Container(
-                      decoration: const BoxDecoration(color: Colors.orange),
+                    thumbnail: Icon(
+                      Icons.home,
+                      size: 90.0,
+                      color: Colors.orange,
                     ),
                     title: data[index]["ListingType"],
                     subtitle: data[index]["StreetName"],

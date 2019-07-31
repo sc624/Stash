@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:path/path.dart';
 // Main Pages
 import 'package:stash/profile_page.dart';
 import 'package:stash/settings_pages/settings_page.dart';
@@ -89,8 +90,8 @@ class MyHomePage extends StatefulWidget {
 
 class HomePageState extends State<MyHomePage> {
   Completer<GoogleMapController> _controller = Completer();
-
   List data1;
+  List images;
 
   @override
   void initState() {
@@ -110,7 +111,7 @@ class HomePageState extends State<MyHomePage> {
         child: new ListView(
           children: <Widget>[
             new UserAccountsDrawerHeader(
-              accountName: new Text("${globals.firstname}"),
+              accountName: new Text("${globals.firstname} ${globals.lastname}"),
               accountEmail: new Text("${globals.useremail}"),
               currentAccountPicture: new CircleAvatar(
                 backgroundColor: Theme
@@ -120,7 +121,6 @@ class HomePageState extends State<MyHomePage> {
                 size: 35.0),
               ),
               onDetailsPressed: () {
-                Navigator.of(context).pop();
                 Navigator.of(context).pushNamed("Profile");
               },
             ),
@@ -241,7 +241,7 @@ class HomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3noC_-jIN-n5aXi1aBk5p0gWACCDkqDWlvvTppUMdrjRcoZt0",
-                  40.112328, -88.235005,data1[index]["ListingType"], data1[index]["City"], data1[index]["State"],data1[index]["Username"], data1[index]["ListingPrice"]),
+                  40.112328, -88.235005,data1[index]["ListingType"], data1[index]["StreetName"],data1[index]["City"], data1[index]["State"],data1[index]["Username"], data1[index]["ListingPrice"]),
             ),
           ); 
           },
@@ -250,45 +250,44 @@ class HomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _boxes(String _image, double lat,double long,String listingName, String city, String state,String username, String listingprice ) {
+  Widget _boxes(String _image, double lat,double long,String listingName, String street, String city, String state,String username, String listingprice ) {
     return  GestureDetector(
-        onTap: () {
-          _gotoLocation(lat,long);
-        },
-        child:Container(
-              child: new FittedBox(
-                child: Material(
-                    color: Colors.white,
-                    elevation: 3.0,
-                    borderRadius: BorderRadius.circular(24.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          width: 160,
-                          height: 200,
-                          child: ClipRRect(
-                            borderRadius: new BorderRadius.circular(24.0),
-                            child: Image(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(_image),
-                            ),
-                          ),),
-                          Container(
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0, bottom: 30.0),
-                            child: myDetailsContainer1(listingName, city, state, username, listingprice),
-                          ),
-                        ),
-
-                      ],)
+      onTap: () {
+        _gotoLocation(lat,long);
+      },
+      child:Container(
+        child: new FittedBox(
+          child: Material(
+            color: Colors.white,
+            elevation: 3.0,
+            borderRadius: BorderRadius.circular(24.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  child: Icon(
+                    Icons.home,
+                    size: 90.0,
+                    color: Colors.orange,
+                  ),
+                  width: 100,
+                  height: 100,
                 ),
-              ),
-            ),
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0, bottom: 30.0),
+                    child: myDetailsContainer1(listingName, street,city, state, username, listingprice),
+                  ),
+                ),
+              ],
+            )
+          ),
+        ),
+      ),
     );
   }
 
-  Widget myDetailsContainer1(String listingName, String city, String state, String username, String listingprice ) {
+  Widget myDetailsContainer1(String listingName, String street, String city, String state, String username, String listingprice ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
@@ -298,14 +297,23 @@ class HomePageState extends State<MyHomePage> {
               child: Text(listingName,
               style: TextStyle(
                 color: Colors.orange,
-                fontSize: 24.0,
+                fontSize: 21.0,
                 fontWeight: FontWeight.bold),
           )),
         ),
         SizedBox(height:5.0),
         Container(
                 child: Text(
-                city +  "\," + state,
+                street,
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 20.0,
+                ),
+              )),
+        SizedBox(height:5.0),
+        Container(
+                child: Text(
+                city +  "\, " + state,
                 style: TextStyle(
                   color: Colors.black54,
                   fontSize: 20.0,
@@ -371,9 +379,6 @@ class HomePageState extends State<MyHomePage> {
 
 //markers
 Marker host1Marker = Marker(
-  onTap: () {
-    
-  },
   markerId: MarkerId('host1'),
   position: LatLng(40.112328, -88.235005),
   infoWindow: InfoWindow(title: 'Bedroom: \$64 per month'),

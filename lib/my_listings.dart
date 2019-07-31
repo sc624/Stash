@@ -10,8 +10,6 @@ import 'package:stash/globals.dart' as globals;
 import 'package:stash/all_listings.dart';
 
 
-
-
 class MyListingsPage extends StatefulWidget {
   @override
   MyListingsPageState createState() => new MyListingsPageState();
@@ -21,11 +19,10 @@ class MyListingsPageState extends State<MyListingsPage> {
   //MyListingsPageState(this.title);
   //final String title;
   List data;
-  bool flag;
   int pls;
 
 //alert dialog
-  bool _cancel() {
+  void _cancel() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -39,7 +36,6 @@ class MyListingsPageState extends State<MyListingsPage> {
               child: new Text("Confirm"),
               onPressed: () {
                 _deleteData();
-                print('${globals.lID}');
                 setState(() {
                   data.removeAt(pls);
                 });
@@ -50,7 +46,6 @@ class MyListingsPageState extends State<MyListingsPage> {
               child: new Text("Cancel"),
               onPressed: () {
                 setState(() {
-                  flag = false;
                 });
                Navigator.of(context).pop();
               },
@@ -59,9 +54,7 @@ class MyListingsPageState extends State<MyListingsPage> {
         );
       },
     );
-    return flag;
   }
-
 
 
   //back end call to get all listings
@@ -81,7 +74,6 @@ class MyListingsPageState extends State<MyListingsPage> {
       data = json.decode(response.body);
     });
   }
-
 
   @override
   void initState(){
@@ -113,54 +105,53 @@ class MyListingsPageState extends State<MyListingsPage> {
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index){
           return InkWell(
-            onTap: () {
+            onLongPress: () {
               globals.lID = data[index]["ListingID"];
+              // printData();
               Navigator.push(
-                context,
+                context, 
                 MaterialPageRoute(builder: (context) => EditListingPage()),
               );
+              // Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new EditListingPage()),)
+              //     .then((val)=> val ? getData() : null);
             },
             onDoubleTap: () {
                  globals.lID = data[index]["ListingID"];
                  _cancel();
                  pls = index;
-                //  data.removeAt(index);
             },
             child: new Card(
-                child:CustomListItemTwo(
-                  thumbnail: Container(
-                    decoration: const BoxDecoration(color: Colors.orange),
-                  ),
-                  title: data[index]["ListingType"],
-                  subtitle: data[index]["StreetName"],
-                  subtitle2: data[index]["City"],
-                  subtitle3: data[index]["State"],
-                  author: globals.username,
-                  publishDate: globals.useremail,
-                  readDuration: data[index]["ListingPrice"],
+              child:CustomListItemTwo(
+                thumbnail: Icon(
+                  Icons.home,
+                  size: 90.0,
+                  color: Colors.orange,
                 ),
+                title: data[index]["ListingType"],
+                subtitle: data[index]["StreetName"],
+                subtitle2: data[index]["City"],
+                subtitle3: data[index]["State"],
+                author: globals.username,
+                publishDate: globals.useremail,
+                readDuration: data[index]["ListingPrice"],
+              ),
             ),
           );
         },
       ),
-
-
-
       floatingActionButton: Align(
-          child: FloatingActionButton.extended(
-            icon: Icon(Icons.add),
-            label: Text("New Listing",
-                style: TextStyle(fontSize: 14.5)),
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.orange,
-            onPressed: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AddListingPage()),
-              );
-            },
-          ),
-          alignment: Alignment(0.12,0.70)),
+        child: FloatingActionButton.extended(
+          icon: Icon(Icons.add),
+          label: Text("Add Listing",
+              style: TextStyle(fontSize: 14.5)),
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.orange,
+          onPressed: (){
+          Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new AddListingPage()),)
+              .then((val)=> val ? getData() : null);
+          },
+        ),
+      alignment: Alignment(0.12,0.70)),
     );
   }
 }

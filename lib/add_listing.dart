@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:stash/globals.dart' as globals;
 
 //import 'dart:async';
-//import 'dart:convert';
+import 'dart:convert';
 
 String type, dim, desc, street, city, state, zip;
 
@@ -18,6 +18,28 @@ class AddListingPage extends StatefulWidget {
 
 
 class _AddListingPage extends State<AddListingPage> {
+
+List data1;
+
+ Future<Null> printData() async {
+    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/printData.php");
+    var response = await http.post(url,
+      headers: {
+        "Accept": "application/json"
+      },
+      body: {
+        "Description": desc,
+        "dimensions": dim,
+        "city": city,
+        "state": state,
+      },
+    );
+
+    this.setState((){
+      data1 = json.decode(response.body);
+    });
+  }
+
 
   /*------------------------all controllers---------------------*/
   //TextEditingController priceController = TextEditingController();
@@ -31,24 +53,6 @@ class _AddListingPage extends State<AddListingPage> {
   TextEditingController stateController = TextEditingController();
   _AddListingPage(this.title);
   final String title;
-
-
-  // void _addData() {
-
-  //   var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/addListing.php");
-           
-  //   http.post(url, body: {
-  //     "userid" : globals.userID,
-  //     "listingtype": typeController.text,
-  //     "dimensions": dimController.text,
-  //     "Description": descriptionController.text,
-  //     "streetname": streetController.text,
-  //     "zipcode": zipController.text,
-  //     "city": cityController.text,
-  //     "state": stateController.text,
-  //   });
-
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +78,7 @@ class _AddListingPage extends State<AddListingPage> {
               state = stateController.text;
               zip = zipController.text;
             });
+            printData();
             //_addData();
             //Navigator.of(context).pop();
             //Navigator.of(context).pop();
@@ -216,7 +221,6 @@ class _AddListingPage extends State<AddListingPage> {
           
         ],
       )
-      
     );
   }
 }
@@ -233,6 +237,24 @@ class ListingConfirmationPageState extends State<ListingConfirmationPage> {
 
 TextEditingController priceController = TextEditingController();
 
+// List data1;
+
+
+//  Future<Null> printData() async {
+//     var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/printData.php");
+//     var response = await http.post(url,
+//       headers: {
+//         "Accept": "application/json"
+//       },
+//       body: {
+//         "userid": globals.userID,
+//       },
+//     );
+
+//     this.setState((){
+//       data1 = json.decode(response.body);
+//     });
+//   }
 
   void _addData() {
 
@@ -290,7 +312,7 @@ TextEditingController priceController = TextEditingController();
               textScaleFactor: 1.2,
             ),
           ),
-          Padding(
+        Padding(
          padding: const EdgeInsets.only(top: 10.0, left:15.0, right: 15.0),
          child: TextField(
            controller: priceController,
