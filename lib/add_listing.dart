@@ -222,13 +222,15 @@ class ListingConfirmationPageState extends State<ListingConfirmationPage> {
 
 TextEditingController priceController = TextEditingController();
 
-List data2;
-var data1, price, low, high, n1, n2, n3, n4;
-var lt1, p1, st1, c1, s1, d1;
-var lt2, p2, st2, c2, s2, d2;
-var lt3, p3, st3, c3, s3, d3;
-var lt4, p4, st4, c4, s4, d4;
+List data2, data3, data4, data5;
+var data1, price, low, high;
+var n1, n2, n3, n4, n5;
+var lt1, p1, c1, s1, d1;
+var lt2, p2, c2, s2, d2;
+var lt3, p3, c3, s3, d3;
+var lt4, p4, c4, s4, d4;
 var parsed = '';
+String hi;
 
  Future<Null> printData() async {
     var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/printData.php");
@@ -253,33 +255,36 @@ var parsed = '';
      low = parsed.split("TIRED")[1];
      high = parsed.split("TIRED")[2];
      n1 = parsed.split("TIRED")[3];
-     n2 = parsed.split("TIRED")[4];
+      lt1 = n1.split("NEIGH1")[0];
+      p1 = n1.split("NEIGH1")[1];
+      c1 = n1.split("NEIGH1")[2];
+      s1 = n1.split("NEIGH1")[3];
+      d1 = n1.split("NEIGH1")[4];
+    //  n2 = parsed.split("TIRED")[4];
+    //  lt2 = n2.split("NEIGH2")[0];
+    //   p2 = n2.split("NEIGH2")[1];
+    //   c2 = n2.split("NEIGH2")[2];
+    //   s2 = n2.split("NEIGH2")[3];
+    //   d2 = n2.split("NEIGH2")[4];
      n3 = parsed.split("TIRED")[5];
-     n4 = parsed.split("TIRED")[6];
-
-    print(low);
-    print(high);
+     lt3 = n3.split("NEIGH3")[0];
+      p3 = n3.split("NEIGH3")[1];
+      c3 = n3.split("NEIGH3")[2];
+      s3 = n3.split("NEIGH3")[3];
+      d3 = n3.split("NEIGH3")[4];
+    //  n4 = parsed.split("TIRED")[6];
+    //  lt4 = n1.split("NEIGH4")[0];
+    //   p4 = n1.split("NEIGH4")[1];
+    //   c4 = n1.split("NEIGH4")[2];
+    //   s4 = n1.split("NEIGH4")[3];
+    //   d4 = n1.split("NEIGH4")[4];
+    
+    print(n3);
   }
 
   @override
   void initState() {
-    printData();
-  }
-
-
-    Future<Null> getData(var neigh) async {
-    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/getListingInfo.php");
-    var response = await http.post(url,
-      headers: {
-        "Accept": "application/json"
-      },
-      body: {
-        "listingid": neigh,
-      },
-    );
-    this.setState((){
-      data2 = json.decode(response.body);
-    });
+    this.printData();
   }
 
 
@@ -357,8 +362,19 @@ var parsed = '';
               textScaleFactor: 1.2,
             ),
           ),
+          Card(
+            child: ListTile(
+              title: Text(lt1 + " costs \$" + p1 + " in " + c1 + "\, " + s1),
+              subtitle: Text(d1),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text(lt3 + " costs \$" + p3 + " in " + c3 + "\, " + s3),
+              subtitle: Text(d3),
+            ),
+          ),
           ],
-
         ),
     );
 
