@@ -4,9 +4,13 @@ import 'package:stash/my_listings.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:stash/globals.dart' as globals;
-
 //import 'dart:async';
 import 'dart:convert';
+
+
+  
+
+
 
 String type, dim, desc, street, city, state, zip;
 
@@ -18,29 +22,7 @@ class AddListingPage extends StatefulWidget {
 
 
 class _AddListingPage extends State<AddListingPage> {
-
-  List data1;
-
-  Future<Null> printData() async {
-    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/printData.php");
-    var response = await http.post(url,
-      headers: {
-        "Accept": "application/json"
-      },
-      body: {
-        "Description": desc,
-        "dimensions": dim,
-        "city": city,
-        "state": state,
-      },
-    );
-
-    this.setState((){
-      data1 = json.decode(response.body);
-    });
-    print(data1);
-//    print('${data1[0]['high']}');
-  }
+  
 
 
   /*------------------------all controllers---------------------*/
@@ -80,7 +62,6 @@ class _AddListingPage extends State<AddListingPage> {
               state = stateController.text;
               zip = zipController.text;
             });
-            printData();
             //_addData();
             //Navigator.of(context).pop();
             //Navigator.of(context).pop();
@@ -239,11 +220,77 @@ class ListingConfirmationPageState extends State<ListingConfirmationPage> {
 
 TextEditingController priceController = TextEditingController();
 
+<<<<<<< HEAD
+=======
+List data2, data3, data4, data5;
+var data1, price, low, high;
+var n1, n2, n3, n4, n5;
+var lt1, p1, c1, s1, d1;
+var lt2, p2, c2, s2, d2;
+var lt3, p3, c3, s3, d3;
+var lt4, p4, c4, s4, d4;
+var parsed = '';
+String hi;
+
+ Future<Null> printData() async {
+    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/printData.php");
+    var response = await http.post(url,
+      headers: {
+        "Accept": "application/json"
+      },
+      body: {
+        "Description": desc,
+        "dimensions": dim,
+        "city": city,
+        "state": state,
+      },
+    );
+
+    data1 = json.decode(response.body);
+    
+    for(int i = 0; i < data1.length; i++){
+      parsed += data1[i];
+    }
+     price = parsed.split("TIRED")[0];
+     low = parsed.split("TIRED")[1];
+     high = parsed.split("TIRED")[2];
+     n1 = parsed.split("TIRED")[3];
+      lt1 = n1.split("NEIGH1")[0];
+      p1 = n1.split("NEIGH1")[1];
+      c1 = n1.split("NEIGH1")[2];
+      s1 = n1.split("NEIGH1")[3];
+      d1 = n1.split("NEIGH1")[4];
+    //  n2 = parsed.split("TIRED")[4];
+    //  lt2 = n2.split("NEIGH2")[0];
+    //   p2 = n2.split("NEIGH2")[1];
+    //   c2 = n2.split("NEIGH2")[2];
+    //   s2 = n2.split("NEIGH2")[3];
+    //   d2 = n2.split("NEIGH2")[4];
+     n3 = parsed.split("TIRED")[5];
+     lt3 = n3.split("NEIGH3")[0];
+      p3 = n3.split("NEIGH3")[1];
+      c3 = n3.split("NEIGH3")[2];
+      s3 = n3.split("NEIGH3")[3];
+      d3 = n3.split("NEIGH3")[4];
+    //  n4 = parsed.split("TIRED")[6];
+    //  lt4 = n1.split("NEIGH4")[0];
+    //   p4 = n1.split("NEIGH4")[1];
+    //   c4 = n1.split("NEIGH4")[2];
+    //   s4 = n1.split("NEIGH4")[3];
+    //   d4 = n1.split("NEIGH4")[4];
+    
+    print(n3);
+  }
+
+  @override
+  void initState() {
+    this.printData();
+  }
+
+>>>>>>> 679ee854a7a28ced2e925c83ca5680fbb721e617
 
   void _addData() {
-
-    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/addListing.php");
-           
+    var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/addListing.php");        
     http.post(url, body: {
       "userid" : globals.userID,
       "listingprice": priceController.text,
@@ -287,7 +334,7 @@ TextEditingController priceController = TextEditingController();
         ),
         alignment: Alignment(0.12,0.85)),
         body: new ListView(
-        children: <Widget> [
+          children: <Widget> [
           Padding(
             padding: const EdgeInsets.only(left: 17.5, top: 15.0),
             child: const Text(
@@ -296,20 +343,47 @@ TextEditingController priceController = TextEditingController();
               textScaleFactor: 1.2,
             ),
           ),
-        Padding(
-         padding: const EdgeInsets.only(top: 10.0, left:15.0, right: 15.0),
-         child: TextField(
-           controller: priceController,
-           onChanged: (v) => priceController.text = v,
-           decoration: InputDecoration(
-             border: OutlineInputBorder(),
-             fillColor: Colors.orange,
-             hintText: 'e.g. 29',
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, left:15.0, right: 15.0),
+            child: TextField(
+              controller: priceController,
+              onChanged: (v) => priceController.text = v,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                fillColor: Colors.orange,
+                hintText: 'e.g. 29',
                 ), 
             ),
          ),
+<<<<<<< HEAD
         ],
       ),
     );
+=======
+         Padding(
+            padding: const EdgeInsets.only(left: 17.5, top: 15.0),
+            child: Text(
+              "Stash Price Recommendation Range: $low to $high" ,
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textScaleFactor: 1.2,
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text(lt1 + " costs \$" + p1 + " in " + c1 + "\, " + s1),
+              subtitle: Text(d1),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text(lt3 + " costs \$" + p3 + " in " + c3 + "\, " + s3),
+              subtitle: Text(d3),
+            ),
+          ),
+          ],
+        ),
+    );
+
+>>>>>>> 679ee854a7a28ced2e925c83ca5680fbb721e617
   }   
 }
