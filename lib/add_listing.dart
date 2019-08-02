@@ -19,9 +19,9 @@ class AddListingPage extends StatefulWidget {
 
 class _AddListingPage extends State<AddListingPage> {
 
-List data1;
+  List data1;
 
- Future<Null> printData() async {
+  Future<Null> printData() async {
     var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/printData.php");
     var response = await http.post(url,
       headers: {
@@ -38,6 +38,8 @@ List data1;
     this.setState((){
       data1 = json.decode(response.body);
     });
+    print(data1);
+//    print('${data1[0]['high']}');
   }
 
 
@@ -82,10 +84,10 @@ List data1;
             //_addData();
             //Navigator.of(context).pop();
             //Navigator.of(context).pop();
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ListingConfirmationPage()),
-            );
+//            Navigator.push(
+//              context,
+//              MaterialPageRoute(builder: (context) => ListingConfirmationPage()),
+//            );
           },
         ),
         alignment: Alignment(0.12,0.92)),
@@ -237,24 +239,6 @@ class ListingConfirmationPageState extends State<ListingConfirmationPage> {
 
 TextEditingController priceController = TextEditingController();
 
-// List data1;
-
-
-//  Future<Null> printData() async {
-//     var url = Uri.encodeFull("https://mysterymachine.web.illinois.edu/printData.php");
-//     var response = await http.post(url,
-//       headers: {
-//         "Accept": "application/json"
-//       },
-//       body: {
-//         "userid": globals.userID,
-//       },
-//     );
-
-//     this.setState((){
-//       data1 = json.decode(response.body);
-//     });
-//   }
 
   void _addData() {
 
@@ -325,9 +309,7 @@ TextEditingController priceController = TextEditingController();
             ),
          ),
         ],
-
-        ),
-        );
-
+      ),
+    );
   }   
 }
